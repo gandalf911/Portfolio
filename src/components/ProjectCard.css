@@ -1,0 +1,117 @@
+.tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min-content;
+  padding: 7px 22px;
+  border-radius: 999px;
+  --border-color: var(--border-secondary);
+}
+.tag__label {
+  white-space: pre;
+}
+.tag--link {
+  cursor: pointer;
+  transition: background-color 0.4s var(--ease);
+}
+.tag--link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 33px;
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 -36px 60px 0 rgba(0, 0, 0, 0.5);
+}
+
+.project-card__image {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.project-card__image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.project-card__caption {
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min-content;
+  /* A short title ("Averröes") would otherwise get a box hugging the button. */
+  min-width: 320px;
+  padding: 18px 28px 20px;
+  background: var(--neutral-2);
+  border-radius: 20px;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
+  --border-color: var(--border-secondary);
+}
+
+.project-card__title {
+  white-space: pre;
+}
+/* With a description: a wide, short bar (text left, button right), so the picture keeps its height.
+   Same surface, border and button as the other cards. */
+.project-card__caption--desc {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(600px, calc(100% - 40px));
+  min-width: 0;
+  padding: 16px 18px 16px 26px;
+}
+.project-card__caption--desc .project-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.project-card__desc {
+  color: rgba(255, 255, 255, 0.84);
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+.project-card__caption--desc .tag {
+  flex: none;
+}
+
+@media (max-width: 809.98px) {
+  .project-card__caption {
+    min-width: 220px;
+    padding: 15px 20px 17px;
+  }
+  .project-card__caption--desc {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px 18px;
+  }
+  .project-card__caption--desc .project-card__text {
+    align-items: center;
+    text-align: center;
+  }
+}

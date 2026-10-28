@@ -1,0 +1,138 @@
+.nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1170px;
+}
+
+.nav__container {
+  position: relative;
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  justify-content: space-between;
+  width: 1px;
+  max-width: 1170px;
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min-content;
+}
+
+.nav__logo {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+}
+/* The image is cropped to the mark itself, so its height is the logo's real size. */
+.nav__logo img {
+  display: block;
+  width: auto;
+  height: 36px;
+}
+.nav--phone .nav__logo img {
+  height: 28px;
+}
+
+.nav__menu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: min-content;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: min-content;
+}
+
+.nav__cta {
+  height: 48px;
+}
+
+/* Tablet */
+.nav--tablet {
+  width: 100%;
+  justify-content: center;
+  gap: 567px;
+}
+.nav--tablet .nav__container {
+  max-width: 1024px;
+}
+
+/* Phone (closed, then open) */
+.nav--phone {
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+.nav--phone .nav__container {
+  flex: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+.nav--phone .nav__brand {
+  justify-content: space-between;
+  width: 100%;
+}
+.nav--phone .nav__menu {
+  flex-direction: column;
+  overflow: hidden;
+}
+.nav--phone .nav__links {
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 10px;
+}
+.nav--phone.is-open .nav__menu {
+  padding-top: 10px;
+}
+.nav--phone.is-open .nav__links {
+  padding-top: 0;
+}
+
+.nav__menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.nav__bars,
+.nav__x {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+.nav__bars {
+  gap: 6px;
+}
+.nav__bars span,
+.nav__x span {
+  width: 25px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 5px;
+}
+.nav__x span {
+  position: absolute;
+  left: calc(50% - 12.5px);
+  top: calc(50% - 1px);
+}

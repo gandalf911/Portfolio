@@ -1,0 +1,101 @@
+.copy-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: min-content;
+  height: 51px;
+  overflow: hidden;
+  background: var(--primary);
+  border-radius: 1000px;
+  cursor: pointer;
+}
+
+.copy-btn__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: min-content;
+  padding: 0 10px 0 16px;
+}
+
+.copy-btn__text {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: min-content;
+  overflow: hidden;
+}
+
+.copy-btn__email,
+.copy-btn__copied {
+  font-family: var(--inter);
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-align: center;
+  color: var(--secondary);
+}
+
+.copy-btn__email {
+  position: relative;
+  z-index: 2;
+  white-space: pre;
+}
+
+.copy-btn__copied {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 52%;
+  transform: translateY(-50%);
+  z-index: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.copy-btn.is-copied:not(.copy-btn--phone) .copy-btn__copied {
+  top: auto;
+  bottom: 4px;
+  transform: none;
+}
+
+.copy-btn__icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 31px;
+  height: 31px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 1000px;
+}
+
+/* Phone variant: fixed 320 px, the address wraps and drops to the default 16 px. */
+.copy-btn--phone {
+  width: 320px;
+  max-width: 100%;
+}
+.copy-btn--phone .copy-btn__container {
+  flex-wrap: wrap;
+  width: 100%;
+}
+.copy-btn--phone .copy-btn__text {
+  flex: 1 0 0;
+  width: 1px;
+}
+.copy-btn--phone .copy-btn__email {
+  flex: 1 0 0;
+  width: 1px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.copy-btn--phone .copy-btn__email,
+.copy-btn--phone .copy-btn__copied {
+  font-size: 16px;
+}

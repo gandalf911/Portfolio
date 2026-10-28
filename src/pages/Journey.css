@@ -1,0 +1,197 @@
+.journey {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 75px 35px;
+}
+.journey__wrap {
+  display: flex;
+  flex: 1 0 0;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
+  width: 1px;
+  max-width: 1170px;
+}
+.journey__inner {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+  width: 1px;
+}
+.journey__title {
+  width: 100%;
+}
+.journey__list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+}
+.journey__line {
+  width: 100%;
+  height: 1px;
+  background: var(--border-primary);
+}
+
+.journey__text {
+  width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.journey__text--88 {
+  width: 88%;
+}
+
+/* Company line: the brand logo, in its own colours, stands in for the written name. */
+.journey__org {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.journey__logo {
+  display: block;
+  width: auto;
+  height: 22px;
+  object-fit: contain;
+}
+.journey__first-body .journey__org {
+  margin-bottom: 14px;
+}
+
+/* First entry */
+.journey__first {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+}
+.journey__first-row {
+  display: flex;
+  gap: 58px;
+  width: 100%;
+}
+.journey__first-date {
+  width: 16%;
+  white-space: pre-wrap;
+}
+.journey__first-body {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 0;
+  width: 1px;
+}
+.journey__company {
+  width: auto;
+  white-space: pre;
+}
+
+/* Following entries */
+.journey__row {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 32px 0;
+}
+.journey__row--2 {
+  gap: 20px;
+}
+.journey__row--3 {
+  gap: 18px;
+}
+.journey__row--4,
+.journey__row--5 {
+  gap: 15px;
+}
+.journey__date {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  width: 180px;
+}
+.journey__date-text {
+  width: 100%;
+  white-space: pre-wrap;
+}
+.journey__body {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 8px;
+  width: 1px;
+}
+
+@media (min-width: 810px) and (max-width: 1199.98px) {
+  .journey {
+    padding: 0 35px;
+  }
+  .journey__row--2 {
+    gap: 0;
+  }
+  .journey__row--2 .journey__date-text {
+    width: 50%;
+  }
+  .journey__row--3 {
+    gap: 7px;
+  }
+  .journey__row--3 .journey__date-text {
+    width: 61%;
+  }
+  .journey__row--4 {
+    gap: 9px;
+  }
+  .journey__row--4 .journey__date-text {
+    width: 59%;
+  }
+  .journey__row--5 {
+    gap: 10px;
+  }
+  .journey__row--5 .journey__date-text {
+    width: 58%;
+  }
+}
+
+@media (max-width: 809.98px) {
+  .journey {
+    padding: 20px 35px;
+  }
+  .journey__first {
+    gap: 0;
+  }
+  .journey__first-row {
+    flex-direction: column;
+    gap: 19px;
+  }
+  .journey__first-date {
+    width: 67%;
+  }
+  .journey__first-body,
+  .journey__body {
+    flex: none;
+    width: 100%;
+  }
+  .journey__row {
+    flex-direction: column;
+  }
+  .journey__row--2 {
+    gap: 17px;
+  }
+  .journey__row--3 {
+    gap: 28px;
+  }
+  .journey__company--2 {
+    width: auto;
+    white-space: pre;
+  }
+  .journey__text--phone-88 {
+    width: 88%;
+  }
+}
