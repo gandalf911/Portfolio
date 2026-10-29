@@ -6,10 +6,9 @@ import { FaqList } from "../components/Faq";
 import { LiquidMetal } from "../components/LiquidMetal";
 import { Particles } from "../components/Particles";
 import { ProgressBox } from "../components/ProgressBox";
-import { ProjectCard } from "../components/ProjectCard";
+import { FlowGallery } from "../components/FlowGallery";
 import { EASE, LINEAR } from "../components/Reveal";
 import { ServiceStack } from "../components/ServiceStack";
-import { Slideshow } from "../components/Slideshow";
 import { SmoothScroll } from "../components/SmoothScroll";
 import { TextReveal } from "../components/TextReveal";
 import { Ticker } from "../components/Ticker";
@@ -165,20 +164,7 @@ export function Home() {
               <h2 className="t-h2">Selected Work</h2>
             </div>
             <div className="projects__slideshow">
-              <Slideshow
-                startFrom={1}
-                gap={50}
-                interval={2}
-                drag={phone}
-                perspective={phone ? 200 : 2000}
-                effectsOpacity={0.25}
-                effectsScale={0.5}
-                effectsRotate={35}
-              >
-                {PROJECTS.map((p) => (
-                  <ProjectCard key={p.title} project={p} />
-                ))}
-              </Slideshow>
+              <FlowGallery projects={PROJECTS} />
             </div>
           </div>
         </div>

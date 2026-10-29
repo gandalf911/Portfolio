@@ -2,11 +2,14 @@ import { resolve } from "node:path";
 import { defineConfig, type Connect, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Vite only serves averroes/index.html at "/averroes/"; without the slash it falls back to the
+// Vite only serves <page>/index.html at "/<page>/"; without the slash it falls back to the
 // home page. Rewrite the clean URL (the one the site links to) in dev and preview.
+const PAGES = ["/averroes", "/onboarding"];
 const rewrite: Connect.NextHandleFunction = (req, _res, next) => {
-  if (req.url === "/averroes" || req.url?.startsWith("/averroes?") || req.url?.startsWith("/averroes#")) {
-    req.url = req.url.replace("/averroes", "/averroes/");
+  for (const page of PAGES) {
+    if (req.url === page || req.url?.startsWith(`${page}?`) || req.url?.startsWith(`${page}#`)) {
+      req.url = req.url.replace(page, `${page}/`);
+    }
   }
   next();
 };
@@ -16,7 +19,7 @@ const cleanUrls: Plugin = {
   configurePreviewServer: (server) => void server.middlewares.use(rewrite),
 };
 
-// Three static pages, like the Framer site: /, /averroes and the 404 page.
+// Static pages: /, /averroes, /onboarding and the 404 page.
 export default defineConfig({
   plugins: [cleanUrls, react()],
   build: {
@@ -24,6 +27,7 @@ export default defineConfig({
       input: {
         home: resolve(__dirname, "index.html"),
         averroes: resolve(__dirname, "averroes/index.html"),
+        onboarding: resolve(__dirname, "onboarding/index.html"),
         notFound: resolve(__dirname, "404.html"),
       },
     },

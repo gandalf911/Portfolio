@@ -14,12 +14,12 @@ export const HERO_TITLE = "Hey! I'm Ziad, a Business Analyst & Automation specia
 
 export type Project = { title: string; image: string; href: string; position?: string; description?: string };
 
-// Every card opens the Averröes case study for now.
+// Cards without their own page yet open the Averröes case study.
 const CASE_STUDY = "/averroes";
 
 // Slideshow order, as on the site (card 6 sits before card 5).
 export const PROJECTS: Project[] = [
-  { title: "Onboarding & Offboarding systems", href: CASE_STUDY, image: "/images/project-onboarding.png" },
+  { title: "Onboarding & Offboarding systems", href: "/onboarding", image: "/images/project-onboarding.jpg" },
   {
     title: "Averröes",
     description: "The platform behind 800+ real\u2011estate advisors. 8 systems in one app, built solo end to end.",
