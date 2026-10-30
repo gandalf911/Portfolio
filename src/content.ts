@@ -42,7 +42,8 @@ export const PROJECTS: Project[] = [
   { title: "Customer Complaint Process", href: CASE_STUDY, image: "/images/project-complaints.png" },
   {
     title: "Apps & Web App Development",
-    href: CASE_STUDY,
+    description: "An onboarding portal with LLM-based OCR, the advisors\u2019 daily workspace and a commission simulator.",
+    href: "/apps",
     image: "/images/project-apps.png",
     position: "54.9% 94.9%",
   },
