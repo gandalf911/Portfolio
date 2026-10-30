@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { CalendarClock, ClipboardCheck, FileSignature, GraduationCap, Info, Radio, Star, Users, Video, type LucideIcon } from "lucide-react";
+import { CalendarClock, Circle, ClipboardCheck, Diamond, GraduationCap, Info, Square, Star, Triangle, Video, type LucideIcon } from "lucide-react";
 import { COHORTS } from "../data/fiction";
 import { useArmed } from "../fx/useArmed";
 import { useEntrance } from "../fx/useEntrance";
@@ -8,11 +8,11 @@ import { T } from "../theme";
 type Row = (typeof COHORTS.rows)[number];
 
 const ICONS: Record<string, LucideIcon> = {
-  Recrutés: Users,
-  "Contrat signé": FileSignature,
-  "E-learning terminé": GraduationCap,
-  "Actif · Leads On": Radio,
-  "Satisfaction onboarding": Star,
+  "Metric 1": Circle,
+  "Metric 2": Square,
+  "Metric 3": Triangle,
+  "Metric 4": Diamond,
+  "Metric 5 (note)": Star,
 };
 
 function fmt(v: number | null, kind: Row["kind"]) {
@@ -135,7 +135,7 @@ export function OnboardingHeatmap() {
           Funnel d'onboarding · cohorte d'entrée <Info size={12} color={T.muted} aria-hidden />
         </div>
         <div style={{ fontSize: 10, color: T.muted, margin: "2px 0 12px" }}>
-          Cohortes 2026. Recrutés (entrée CLIENT) → contrat → e-learning complet → Leads On, plus délais et satisfaction.
+          Cohortes 2026 : cinq indicateurs mois par mois, avec un délai médian.
         </div>
         <div style={{ flex: 1, minHeight: 0 }}>
           <Heatmap />

@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { animate } from "animejs";
-import { CalendarDays, Flower2, Handshake, Hourglass, Info, Megaphone, type LucideIcon } from "lucide-react";
+import { CalendarDays, Circle, Flower2, Info, Square, Triangle, type LucideIcon } from "lucide-react";
 import { POOL_YEAR } from "../data/fiction";
 import { CountUp } from "../fx/CountUp";
 import { prefersReducedMotion } from "../fx/reducedMotion";
 import { T } from "../theme";
 
 /* L'année du pool, mois par mois : une rose où chaque pétale empile, du centre
-   vers l'extérieur, transactions, publications et entrées en traitement. */
+   vers l'extérieur, trois séries (libellés neutres dans la vitrine). */
 
 const S = 520;
 const C = S / 2;
 const R = 214;
 const SERIES: { key: "intake" | "listed" | "deals"; label: string; color: string; icon: LucideIcon }[] = [
-  { key: "intake", label: "Entrés en traitement", color: "#9fd6cb", icon: Hourglass },
-  { key: "listed", label: "Publiés", color: T.terracotta, icon: Megaphone },
-  { key: "deals", label: "Transactions", color: T.rose, icon: Handshake },
+  { key: "intake", label: "Metric 1", color: "#9fd6cb", icon: Circle },
+  { key: "listed", label: "Metric 2", color: T.terracotta, icon: Square },
+  { key: "deals", label: "Metric 3", color: T.rose, icon: Triangle },
 ];
 const max = Math.max(...POOL_YEAR.intake);
 const radius = (v: number) => R * Math.sqrt(v / max);
@@ -65,8 +65,8 @@ export function PoolYear() {
             </div>
           ))}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10, marginTop: 6 }}>
-            <Ratio label="Publiés / entrés" value={Math.round(((month === null ? sum("listed") : POOL_YEAR.listed[month]) / (month === null ? sum("intake") : POOL_YEAR.intake[month])) * 100)} />
-            <Ratio label="Transactions / publiés" value={Math.round(((month === null ? sum("deals") : POOL_YEAR.deals[month]) / (month === null ? sum("listed") : POOL_YEAR.listed[month])) * 100)} />
+            <Ratio label="Metric 2 / Metric 1" value={Math.round(((month === null ? sum("listed") : POOL_YEAR.listed[month]) / (month === null ? sum("intake") : POOL_YEAR.intake[month])) * 100)} />
+            <Ratio label="Metric 3 / Metric 2" value={Math.round(((month === null ? sum("deals") : POOL_YEAR.deals[month]) / (month === null ? sum("listed") : POOL_YEAR.listed[month])) * 100)} />
           </div>
           <div style={{ fontSize: 11, color: T.muted }}>{month === null ? `${done} mois écoulés · survolez un mois pour son détail` : "Mois survolé"}</div>
         </div>
@@ -100,7 +100,7 @@ export function PoolYear() {
               const [x, y] = pt(R + 30, (i + 0.5) * step);
               const future = POOL_YEAR.intake[i] === 0;
               return (
-                <text key={m} x={x} y={y + 4} textAnchor="middle" fontSize="12" fontWeight={month === i ? 700 : 400} fill={future ? "rgba(26,52,49,.3)" : T.muted}>
+                <text key={m} x={x} y={y + 4} textAnchor="middle" fontSize="12" fontWeight={month === i ? 700 : 400} fill={future ? "rgb(var(--ink) / .3)" : T.muted}>
                   {m}
                 </text>
               );

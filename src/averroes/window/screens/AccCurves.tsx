@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Crown, Gauge, Home, KeyRound, Megaphone, Trophy, UserPlus, type LucideIcon } from "lucide-react";
+import { Crown, Home, KeyRound, Megaphone, Square, Triangle, Trophy, UserPlus, type LucideIcon } from "lucide-react";
 import { ACCS, ACC_SERIES, TROPHIES, type Person } from "../data/fiction";
 import { Avatar } from "../fx/Avatar";
 import { Card } from "../fx/Card";
@@ -16,9 +16,9 @@ function podium(values: (p: Person, i: number) => number, asc = false) {
 }
 
 const PODIUMS: { title: string; icon: LucideIcon; rows: { p: Person; v: number }[] }[] = [
-  { title: "Recrutements (mois en cours)", icon: Trophy, rows: podium((_, i) => [19, 14, 24, 9, 12, 6][i]) },
-  { title: "Publications (mois en cours)", icon: Megaphone, rows: podium((_, i) => [81, 52, 47, 33, 29, 18][i]) },
-  { title: "Moins en traitement", icon: Gauge, rows: podium((_, i) => [512, 288, 161, 403, 236, 140][i], true) },
+  { title: "Metric 1 (mois en cours)", icon: Trophy, rows: podium((_, i) => [19, 14, 24, 9, 12, 6][i]) },
+  { title: "Metric 2 (mois en cours)", icon: Square, rows: podium((_, i) => [81, 52, 47, 33, 29, 18][i]) },
+  { title: "Metric 3 (le moins)", icon: Triangle, rows: podium((_, i) => [512, 288, 161, 403, 236, 140][i], true) },
 ];
 
 function Podium({ title, icon: Icon, rows }: (typeof PODIUMS)[number]) {
@@ -68,7 +68,7 @@ function Curves() {
   const x = (i: number) => PAD.l + (i / (n - 1)) * (CW - PAD.l - PAD.r);
   const y = (v: number) => PAD.t + (1 - v / max) * (CH - PAD.t - PAD.b);
   return (
-    <svg viewBox={`0 0 ${CW} ${CH}`} width="100%" height="100%" preserveAspectRatio="none" style={{ display: "block", overflow: "visible" }} aria-label="Recrutement mensuel par ACC">
+    <svg viewBox={`0 0 ${CW} ${CH}`} width="100%" height="100%" preserveAspectRatio="none" style={{ display: "block", overflow: "visible" }} aria-label="Metric 1 mensuel par ACC">
       {[0, 15, 30, 45].map((g) => (
         <g key={g}>
           <line x1={PAD.l} x2={CW - PAD.r} y1={y(g)} y2={y(g)} stroke={T.border} strokeDasharray="3 4" />
@@ -116,7 +116,7 @@ function Curves() {
 const TROPHY_STYLE: Record<(typeof TROPHIES)[number]["tone"], { bg: string; fg: string; icon: LucideIcon }> = {
   jade: { bg: "linear-gradient(120deg, #84c9bd, #1bbfa0)", fg: T.sapin, icon: UserPlus },
   gold: { bg: "linear-gradient(120deg, #f4a08f, #ec6048)", fg: "#fff", icon: Megaphone },
-  sapin: { bg: `linear-gradient(120deg, #2c5a52, ${T.sapin})`, fg: T.elevated, icon: Home },
+  sapin: { bg: `linear-gradient(120deg, #2c5a52, ${T.sapin})`, fg: T.cream, icon: Home },
   rose: { bg: "linear-gradient(120deg, #e0668f, #c03163)", fg: "#fff", icon: KeyRound },
 };
 
@@ -158,9 +158,9 @@ export function AccCurves() {
           <Podium key={p.title} {...p} />
         ))}
       </div>
-      <Card title="Recrutement mensuel par ACC · 2026" arrow={false} style={{ flex: 1, display: "flex", flexDirection: "column", padding: "12px 16px 10px" }}>
+      <Card title="Metric 1 mensuel par ACC · 2026" arrow={false} style={{ flex: 1, display: "flex", flexDirection: "column", padding: "12px 16px 10px" }}>
         <span style={{ position: "absolute", top: 13, right: 16, fontSize: 10, color: T.muted }}>
-          <b style={{ color: T.text }}>{totals.reduce((a, t) => a + t.total, 0)}</b> recrutés
+          <b style={{ color: T.text }}>{totals.reduce((a, t) => a + t.total, 0)}</b> · Metric 1
         </span>
         <div style={{ flex: 1, minHeight: 0, position: "relative", marginTop: 6 }}>
           <div style={{ position: "absolute", inset: 0 }}>

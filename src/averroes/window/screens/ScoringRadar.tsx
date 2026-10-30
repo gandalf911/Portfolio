@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Building2, Gauge, Phone, Receipt, Save, SlidersHorizontal, Star, TrendingDown, TrendingUp } from "lucide-react";
+import { Circle, Gauge, Save, SlidersHorizontal, Square, Star, TrendingDown, TrendingUp, Triangle } from "lucide-react";
 import { ACCS, ADVISORS, SCORING, type Person } from "../data/fiction";
 import { Avatar } from "../fx/Avatar";
 import { useArmed } from "../fx/useArmed";
@@ -17,16 +17,16 @@ function ProfileRadar() {
   const axes = [-90, 150, 30];
   const tri = (v: number) => axes.map((a) => pt(a, v).join(",")).join(" ");
   const k = armed ? 1 : 0.02;
-  const shape = [pt(-90, (profile.offre / 5) * k), pt(150, (profile.tx / 5) * k), pt(30, (profile.demande / 5) * k)].map((p) => p.join(",")).join(" ");
+  const shape = [pt(-90, (profile.m1 / 5) * k), pt(150, (profile.m3 / 5) * k), pt(30, (profile.m2 / 5) * k)].map((p) => p.join(",")).join(" ");
   return (
     <svg viewBox="0 -4 300 232" width="100%" height="100%" aria-label="Profil de scoring" style={{ display: "block" }}>
       {[1, 0.66, 0.33].map((v) => (
         <polygon key={v} points={tri(v)} fill="none" stroke={T.border} strokeDasharray="3 3" />
       ))}
       <polygon points={shape} fill="rgba(27,191,160,.2)" stroke={T.jadeCta} strokeWidth="1.8" strokeLinejoin="round" style={{ transition: "all 1s cubic-bezier(.2,.8,.2,1)" }} />
-      <text x={cx} y={12} textAnchor="middle" fontSize="10" fontWeight="600" fill={T.muted}>Offre</text>
-      <text x={cx - R * 0.9} y={cy + R * 0.5 + 18} textAnchor="middle" fontSize="10" fontWeight="600" fill={T.muted}>Transactions</text>
-      <text x={cx + R * 0.9} y={cy + R * 0.5 + 18} textAnchor="middle" fontSize="10" fontWeight="600" fill={T.muted}>Demande</text>
+      <text x={cx} y={12} textAnchor="middle" fontSize="10" fontWeight="600" fill={T.muted}>Metric 1</text>
+      <text x={cx - R * 0.9} y={cy + R * 0.5 + 18} textAnchor="middle" fontSize="10" fontWeight="600" fill={T.muted}>Metric 3</text>
+      <text x={cx + R * 0.9} y={cy + R * 0.5 + 18} textAnchor="middle" fontSize="10" fontWeight="600" fill={T.muted}>Metric 2</text>
     </svg>
   );
 }
@@ -56,7 +56,7 @@ function Mover({ who, from, to }: { who: Person; from: number; to: number }) {
 }
 
 const RANKING: { who: Person; acc: Person; o: number; d: number; t: number; g: number; evo: number }[] = [
-  { who: ADVISORS[0], acc: ACCS[2], o: SCORING.profile.offre, d: SCORING.profile.demande, t: SCORING.profile.tx, g: SCORING.global, evo: 9 },
+  { who: ADVISORS[0], acc: ACCS[2], o: SCORING.profile.m1, d: SCORING.profile.m2, t: SCORING.profile.m3, g: SCORING.global, evo: 9 },
   { who: ADVISORS[6], acc: ACCS[0], o: 3.4, d: 3.9, t: 3.6, g: 3.61, evo: 2 },
   { who: ADVISORS[3], acc: ACCS[3], o: 4.6, d: 1.8, t: 3.9, g: 3.52, evo: 23 },
   { who: ADVISORS[14], acc: ACCS[2], o: 3.1, d: 3.3, t: 4.1, g: 3.49, evo: -2 },
@@ -82,15 +82,15 @@ function Ranking() {
         <span>#</span>
         <span>Conseiller</span>
         <span>ACC</span>
-        <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Building2 size={10} aria-hidden /> Offre</span>
-        <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Phone size={10} aria-hidden /> Demande</span>
-        <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Receipt size={10} aria-hidden /> Transac.</span>
+        <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Circle size={10} aria-hidden /> Metric 1</span>
+        <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Square size={10} aria-hidden /> Metric 2</span>
+        <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Triangle size={10} aria-hidden /> Metric 3</span>
         <span style={{ color: T.jadeInk }}>Global</span>
         <span>Évol.</span>
       </div>
       {RANKING.map((r, i) => (
         <div key={r.who.id} style={{ display: "grid", gridTemplateColumns: cols, gap: 10, alignItems: "center", padding: "7px 6px", borderTop: `1px solid ${T.border}` }}>
-          <span style={{ width: 18, height: 18, borderRadius: "50%", display: "grid", placeItems: "center", fontSize: 9, fontWeight: 700, color: "#fff", background: [T.terracotta, "#6b8a85", "#a0523d", "rgba(26,52,49,.35)"][i] }}>{i + 1}</span>
+          <span style={{ width: 18, height: 18, borderRadius: "50%", display: "grid", placeItems: "center", fontSize: 9, fontWeight: 700, color: "#fff", background: [T.terracotta, "#6b8a85", "#a0523d", "rgb(var(--ink) / .35)"][i] }}>{i + 1}</span>
           <span style={{ display: "flex", alignItems: "center", gap: 7, minWidth: 0 }}>
             <Avatar person={r.who} size={20} />
             <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500 }}>
@@ -133,9 +133,9 @@ export function ScoringRadar() {
             <ProfileRadar />
           </div>
           <div style={{ display: "flex", justifyContent: "center", gap: 12, fontSize: 11 }}>
-            <span><Building2 size={11} color={T.jadeCta} aria-hidden /> Offre <b>{p.offre.toFixed(1)}</b></span>
-            <span><Phone size={11} color={T.jadeCta} aria-hidden /> Dem. <b>{p.demande.toFixed(1)}</b></span>
-            <span><Receipt size={11} color={T.jadeCta} aria-hidden /> Tx <b>{p.tx.toFixed(1)}</b></span>
+            <span><Circle size={11} color={T.jadeCta} aria-hidden /> M1 <b>{p.m1.toFixed(1)}</b></span>
+            <span><Square size={11} color={T.jadeCta} aria-hidden /> M2 <b>{p.m2.toFixed(1)}</b></span>
+            <span><Triangle size={11} color={T.jadeCta} aria-hidden /> M3 <b>{p.m3.toFixed(1)}</b></span>
             <span style={{ fontWeight: 700, color: T.jadeInk, background: T.jadeSoft, borderRadius: 999, padding: "0 8px" }}>{SCORING.global.toFixed(2)}</span>
           </div>
         </div>
@@ -164,14 +164,14 @@ export function ScoringRadar() {
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 11, marginBottom: 8 }}>
           <b style={{ display: "flex", alignItems: "center", gap: 5, letterSpacing: ".08em", fontSize: 10 }}><SlidersHorizontal size={11} aria-hidden /> PROFILS</b>
           <span style={{ display: "flex", alignItems: "center", gap: 5, border: `1px solid ${T.border}`, borderRadius: 8, padding: "3px 8px" }}>
-            Scoring Master <span className="avw-label">consolidé</span> <Star size={10} fill={T.jadeCta} color={T.jadeCta} aria-hidden />
+            Profil A <span className="avw-label">par défaut</span> <Star size={10} fill={T.jadeCta} color={T.jadeCta} aria-hidden />
           </span>
           <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 5, border: `1px solid ${T.border}`, borderRadius: 8, padding: "3px 9px" }}>
             <Save size={11} aria-hidden /> Enregistrer le réglage
           </span>
         </div>
         <div style={{ fontSize: 10, color: T.jadeInk, background: "rgba(27,191,160,.07)", border: "1px solid rgba(27,191,160,.35)", borderRadius: 8, padding: "5px 10px", marginBottom: 8 }}>
-          <b>Barème Averröes</b> <span style={{ color: T.muted }}>piste unique consolidée · données absentes exclues · scores et rangs recalculés pour 598 conseillers</span>
+          <b>Barème pondéré</b> <span style={{ color: T.muted }}>scores et rangs recalculés pour 598 conseillers</span>
         </div>
         <Ranking />
       </div>

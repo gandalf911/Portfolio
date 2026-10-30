@@ -16,10 +16,10 @@ const SOURCES: { label: string; logo?: string[]; icon?: LucideIcon }[] = [
 
 /** « Eight sources. One reading. » : huit tuiles en orbite, les rayons s'allument vers le centre. */
 export function BedrockHub() {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const { ref, live } = useInView<HTMLDivElement>();
   const [lit, setLit] = useState(0);
   useEffect(() => {
-    if (!inView) return;
+    if (!live) return;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return setLit(SOURCES.length);
     let k = 0;
     const t = window.setInterval(() => {
@@ -28,7 +28,7 @@ export function BedrockHub() {
       if (k >= SOURCES.length) window.clearInterval(t);
     }, 220);
     return () => window.clearInterval(t);
-  }, [inView]);
+  }, [live]);
   const pos = (i: number) => {
     const a = (i / SOURCES.length) * Math.PI * 2 - Math.PI / 2;
     return { x: 50 + Math.cos(a) * 36, y: 50 + Math.sin(a) * 36 };

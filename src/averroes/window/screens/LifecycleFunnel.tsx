@@ -55,7 +55,7 @@ export function LifecycleFunnel() {
   return (
     <div
       style={{
-        height: "100%", borderRadius: 18, overflow: "hidden", padding: "14px 18px 6px", color: T.elevated,
+        height: "100%", borderRadius: 18, overflow: "hidden", padding: "14px 18px 6px", color: T.cream,
         background: `radial-gradient(90% 70% at 50% 30%, #234a45 0%, ${T.sapin} 60%, ${T.sapinDeep} 100%)`,
         display: "flex", flexDirection: "column",
       }}
@@ -82,7 +82,7 @@ export function LifecycleFunnel() {
           </defs>
 
           {/* total du parc */}
-          <text x={18} y={CY + 4} fontSize="40" fontWeight="700" fill={T.elevated} letterSpacing="-1">
+          <text x={18} y={CY + 4} fontSize="40" fontWeight="700" fill={T.cream} letterSpacing="-1">
             {formatFr(Math.round(total * Math.min(1, grow * 1.2)))}
           </text>
           <text x={20} y={CY + 30} fontSize="13" fill={`${CREAM}.6)`}>Total parc</text>
@@ -92,11 +92,11 @@ export function LifecycleFunnel() {
               {hover === i && <rect x={xOf(i) - step / 2} y={64} width={step} height={330} rx={10} fill="rgba(254,239,224,.06)" />}
               <line x1={xOf(i)} x2={xOf(i)} y1={78} y2={372} stroke="rgba(254,239,224,.08)" />
               {wrap(s.label).map((line, k) => (
-                <text key={k} x={xOf(i)} y={48 + k * 15} textAnchor="middle" fontSize="12" fill={hover === i ? T.elevated : `${CREAM}.62)`}>
+                <text key={k} x={xOf(i)} y={48 + k * 15} textAnchor="middle" fontSize="12" fill={hover === i ? T.cream : `${CREAM}.62)`}>
                   {line}
                 </text>
               ))}
-              <text x={xOf(i)} y={404} textAnchor="middle" fontSize="13.5" fontWeight="700" fill={T.elevated}>
+              <text x={xOf(i)} y={404} textAnchor="middle" fontSize="13.5" fontWeight="700" fill={T.cream}>
                 {pctLabel(s.value)}
               </text>
               <text x={xOf(i)} y={423} textAnchor="middle" fontSize="11" fill={`${CREAM}.55)`}>
@@ -139,7 +139,7 @@ export function LifecycleFunnel() {
           >
             <div style={{ fontWeight: 600, marginBottom: 2 }}>{LIFECYCLE[hover].label}</div>
             <div style={{ color: `${CREAM}.75)` }}>
-              Actuellement : <b style={{ color: T.elevated }}>{formatFr(LIFECYCLE[hover].value)}</b> ({pctLabel(LIFECYCLE[hover].value)})
+              Actuellement : <b style={{ color: T.cream }}>{formatFr(LIFECYCLE[hover].value)}</b> ({pctLabel(LIFECYCLE[hover].value)})
             </div>
             <div style={{ color: `${CREAM}.75)` }}>
               Cumulé (cette étape ou au-delà) : <b style={{ color: INK }}>{formatFr(cumulative[hover])}</b>
@@ -150,10 +150,10 @@ export function LifecycleFunnel() {
 
       <div style={{ flexShrink: 0, display: "flex", gap: 18, fontSize: 10.5, color: `${CREAM}.55)`, padding: "2px 2px 6px" }}>
         <span>
-          Publiés aujourd'hui : <b style={{ color: T.elevated }}><CountUp value={LIFECYCLE[6].value} /></b>
+          Étape 7 aujourd'hui : <b style={{ color: T.cream }}><CountUp value={LIFECYCLE[6].value} /></b>
         </span>
         <span>
-          Vendus (plateforme et hors PF) : <b style={{ color: T.elevated }}><CountUp value={LIFECYCLE[8].value + LIFECYCLE[9].value} /></b>
+          Étapes 9 et 10 : <b style={{ color: T.cream }}><CountUp value={LIFECYCLE[8].value + LIFECYCLE[9].value} /></b>
         </span>
         <span style={{ marginLeft: "auto" }}>Survolez une étape pour son cumul</span>
       </div>

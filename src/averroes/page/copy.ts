@@ -14,7 +14,7 @@ export const NAV = {
 };
 
 export const HERO = {
-  eyebrow: "Case study · Conceived, designed, built and run by me · 2024 to now",
+  eyebrow: "Conceived, designed, built and run by me · 2024 to now",
   title: "Averröes. The system an entire ops team now runs on.",
   lede: [
     { text: "A production CRM for a real-estate network of 800+ advisors in Morocco. It replaced dozens of spreadsheets and tools with " },

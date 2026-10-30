@@ -10,7 +10,13 @@ export const NAV_LINKS = [
   { label: "Highlights", href: "/#testimonials" },
 ];
 
-export const HERO_TITLE = "Hey! I'm Ziad, a Business Analyst & Automation specialist based in Casablanca.";
+export const HERO = {
+  role: "Business Analyst & Automation Engineer · Casablanca",
+  title: "I turn manual operations into systems that run themselves.",
+  text: "I'm Ziad. I map how the work really flows, then build the CRMs, data pipelines and n8n workflows that carry it, so teams stop copying data between tools.",
+  // the same figures as the About and Highlights sections
+  proof: ["30+ workflows in production", "8 systems unified", "3 years in ops & data"],
+};
 
 export type Project = { title: string; image: string; href: string; position?: string; description?: string };
 
@@ -24,10 +30,15 @@ export const PROJECTS: Project[] = [
     title: "Averröes",
     description: "The platform behind 800+ real\u2011estate advisors. 8 systems in one app, built solo end to end.",
     href: CASE_STUDY,
-    image: "/images/project-averroes.jpg",
-    position: "50% 40%",
+    image: "/images/project-averroes-statue.jpg",
+    position: "62% 30%",
   },
-  { title: "Neighborhood Clusters System", href: CASE_STUDY, image: "/images/project-clusters.png" },
+  {
+    title: "Web Design",
+    description: "Websites I design and build for clients, starting with Diag Immo Invest.",
+    href: "/web-design",
+    image: "/images/project-clusters.png",
+  },
   { title: "Customer Complaint Process", href: CASE_STUDY, image: "/images/project-complaints.png" },
   {
     title: "Apps & Web App Development",
@@ -86,35 +97,33 @@ export const SERVICES: Service[] = [
   },
 ];
 
-export type Logo = { name: string; src?: string; w: number; h: number; radius?: number; liquidMetal?: boolean };
+export type StackItem = { name: string; src?: string };
 
-// The two rows of the stack ticker; sizes are the frames each logo sits in.
-export const STACK_ROW_1: Logo[] = [
-  { name: "DBT", src: "/images/stack-dbt.svg", w: 200, h: 165 },
-  { name: "Gitlab", src: "/images/stack-gitlab.svg", w: 200, h: 150, radius: 80 },
-  { name: "Github", src: "/images/stack-github.svg", w: 200, h: 150, radius: 113 },
-  { name: "Mongo DB", src: "/images/stack-mongodb.svg", w: 200, h: 200 },
-  { name: "PostgreSQL", src: "/images/stack-postgresql.svg", w: 200, h: 150 },
-  { name: "Metabase", src: "/images/stack-metabase.svg", w: 200, h: 150 },
-  { name: "DBeaver", src: "/images/stack-dbeaver.svg", w: 200, h: 150 },
-  { name: "N8n", src: "/images/stack-n8n.svg", w: 200, h: 200 },
-  { name: "Zapier", src: "/images/stack-zapier.svg", w: 200, h: 150 },
-  { name: "Netlify", src: "/images/stack-netlify.svg", w: 200, h: 150 },
-  { name: "Vercel", src: "/images/stack-vercel.svg", w: 200, h: 150 },
-  { name: "Supabase", src: "/images/stack-supabase.svg", w: 200, h: 150 },
-  { name: "Railway", src: "/images/stack-railway.png", w: 200, h: 150 },
-  { name: "Cursor", src: "/images/stack-cursor.svg", w: 200, h: 150 },
-  { name: "VScode", src: "/images/stack-vscode.svg", w: 200, h: 150 },
-];
-
-export const STACK_ROW_2: Logo[] = [
-  { name: "Zoho", src: "/images/stack-zoho.svg", w: 200, h: 200 },
-  { name: "Hubspot", src: "/images/stack-hubspot.svg", w: 200, h: 200 },
-  { name: "Thinkific", src: "/images/stack-thinkific.svg", w: 200, h: 200, radius: 80 },
-  { name: "MIRO", src: "/images/stack-miro.svg", w: 200, h: 150 },
-  { name: "Google", src: "/images/stack-google.svg", w: 200, h: 150 },
-  { name: "Claude", src: "/images/stack-claude.svg", w: 200, h: 150 },
-  { name: "Framer", w: 200, h: 200, liquidMetal: true },
+// The tools on the stack spheres, one sphere each. No src = drawn inline (Framer).
+export const STACK: StackItem[] = [
+  { name: "DBT", src: "/images/stack-dbt.svg" },
+  { name: "Gitlab", src: "/images/stack-gitlab.svg" },
+  { name: "Github", src: "/images/stack-github.svg" },
+  { name: "Mongo DB", src: "/images/stack-mongodb.svg" },
+  { name: "PostgreSQL", src: "/images/stack-postgresql.svg" },
+  { name: "Metabase", src: "/images/stack-metabase.svg" },
+  { name: "DBeaver", src: "/images/stack-dbeaver.svg" },
+  { name: "N8n", src: "/images/stack-n8n.svg" },
+  { name: "Zapier", src: "/images/stack-zapier.svg" },
+  { name: "Netlify", src: "/images/stack-netlify.svg" },
+  { name: "Vercel", src: "/images/stack-vercel.svg" },
+  { name: "Supabase", src: "/images/stack-supabase.svg" },
+  { name: "Railway", src: "/images/stack-railway.png" },
+  { name: "Cursor", src: "/images/stack-cursor.svg" },
+  { name: "VScode", src: "/images/stack-vscode.svg" },
+  { name: "Zoho", src: "/images/stack-zoho.svg" },
+  { name: "Hubspot", src: "/images/stack-hubspot.svg" },
+  { name: "Thinkific", src: "/images/stack-thinkific.svg" },
+  { name: "MIRO", src: "/images/stack-miro.svg" },
+  { name: "Google", src: "/images/stack-google.svg" },
+  { name: "Claude" },
+  { name: "Claude Code", src: "/images/stack-claude.svg" },
+  { name: "Framer" },
 ];
 
 export const ACHIEVEMENTS = [

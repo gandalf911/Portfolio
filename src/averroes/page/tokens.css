@@ -38,7 +38,9 @@ a { color: inherit; text-decoration: none; }
 .top { position: relative; overflow: hidden; }
 .aurora { position: absolute; inset: 0; pointer-events: none; }
 .aurora::before,
-.aurora::after { content: ""; position: absolute; border-radius: 50%; filter: blur(70px); }
+/* No filter: blur() here: a 900 px blur repaints on every scroll frame. The radial
+   gradients below already fade to transparent. */
+.aurora::after { content: ""; position: absolute; border-radius: 50%; }
 .aurora::before {
   width: 900px; height: 520px; left: -260px; top: -260px; transform: rotate(-18deg);
   background: radial-gradient(closest-side, var(--glow-a), var(--glow-b) 55%, transparent);
@@ -169,7 +171,7 @@ a { color: inherit; text-decoration: none; }
 .p-rows i { flex: 1; height: 5px; border-radius: 5px; background: rgba(132, 201, 189, 0.35); }
 
 /* Le même chiffre, suivi d'une couche à l'autre : la tuile, puis sa barre, puis la ligne. */
-.vis-surface[data-on] .hot { animation: drill 4.2s ease-in-out infinite; }
+.vis-surface[data-live] .hot { animation: drill 4.2s ease-in-out infinite; }
 .vis-surface[data-on] .p-bars .hot { animation-delay: 1.4s; }
 .vis-surface[data-on] .p-rows .hot { animation-delay: 2.8s; }
 @keyframes drill {
@@ -237,7 +239,7 @@ a { color: inherit; text-decoration: none; }
 .vis-arch .flow { fill: none; stroke: #1bbfa0; stroke-width: 1.4; stroke-dasharray: 4 5; opacity: 0.9; }
 .vis-arch .flow.ro { stroke: #84c9bd; }
 .vis-arch .flow.out { stroke: #ec6048; }
-.vis-arch[data-on] .flow { animation: flow 1.2s linear infinite; }
+.vis-arch[data-live] .flow { animation: flow 1.2s linear infinite; }
 @keyframes flow { to { stroke-dashoffset: -18; } }
 
 /* Audit du scoring */

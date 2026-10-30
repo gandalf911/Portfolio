@@ -61,7 +61,6 @@ uniform vec2 uPlane;     // card size, px
 uniform float uRadius;   // corner radius, px
 uniform float uDepth;
 uniform float uHoverF;
-uniform vec4 uBtn;       // button rect in uv (x0, y0, x1, y1)
 varying vec2 vUv;
 varying float vZ;
 
@@ -79,8 +78,6 @@ void main() {
   vec3 col = texture2D(tMap, vUv).rgb;
   // light: the part of the sheet nearest the viewer is brightest
   float lit = mix(0.55, 1.0, smoothstep(-uDepth * 0.7, uDepth * 0.5, vZ));
-  float inBtn = step(uBtn.x, vUv.x) * step(vUv.x, uBtn.z) * step(uBtn.y, vUv.y) * step(vUv.y, uBtn.w);
-  col = mix(col, vec3(1.0) - (vec3(1.0) - col) * 0.35, inBtn * uHoverF * 0.55);
   gl_FragColor = vec4(col * mix(lit, 1.0, uHoverF * 0.25), alpha);
 }`;
 
@@ -90,9 +87,6 @@ const TEX_W = 1120;
 const TEX_H = 860;
 
 /** Draws one card (cover-fit picture, scrim, title, button) into a canvas used as its texture. */
-/** Button rect in texture uv, filled by drawCard (same for every card, the label never changes). */
-const BTN = [0, 0, 0, 0];
-
 function drawCard(img: HTMLImageElement | null, project: Project): HTMLCanvasElement {
   const cv = document.createElement("canvas");
   cv.width = TEX_W;
@@ -125,7 +119,6 @@ function drawCard(img: HTMLImageElement | null, project: Project): HTMLCanvasEle
   g.roundRect(bx, by, bw, bh, bh / 2);
   g.fill();
   g.stroke();
-  BTN[0] = bx / TEX_W; BTN[2] = (bx + bw) / TEX_W; BTN[1] = 1 - (by + bh) / TEX_H; BTN[3] = 1 - by / TEX_H;
   g.fillStyle = "#fff";
   g.fillText(label, bx + 30, by + 42);
   // arrow
@@ -220,7 +213,6 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
             uCurve: { value: 0.7 },
             uSpread: { value: 1.1 },
             uHoverF: { value: 0 },
-            uBtn: { value: BTN },
             uHover: { value: 0 },
             uSize: { value: 1 },
             uPlane: { value: [1, 1] },
@@ -261,7 +253,9 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
       if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
       if (moved < 6) {
         const c = hovered();
-        if (c) window.location.href = c.href;
+        // an outside site opens in a new tab, the portfolio's own pages in place
+        if (c && /^https?:/.test(c.href)) window.open(c.href, "_blank", "noopener");
+        else if (c) window.location.href = c.href;
       }
     };
     const onLeave = () => {
@@ -361,7 +355,7 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
       <ul className="flow__sr">
         {projects.map((p) => (
           <li key={p.title}>
-            <a href={p.href}>{p.title}</a>
+            <a href={p.href} {...(/^https?:/.test(p.href) ? { target: "_blank", rel: "noopener" } : {})}>{p.title}</a>
           </li>
         ))}
       </ul>

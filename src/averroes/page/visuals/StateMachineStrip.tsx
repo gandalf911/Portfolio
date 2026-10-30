@@ -5,13 +5,13 @@ const STAGES = ["Recruitment", "Payment", "KYC", "Contract", "Accounts", "E-lear
 
 /** Le cycle de vie du conseiller : un jeton parcourt les étapes, comme un dossier dans le vrai flux. */
 export function StateMachineStrip() {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const { ref, live } = useInView<HTMLDivElement>();
   const [at, setAt] = useState(0);
   useEffect(() => {
-    if (!inView || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (!live || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const t = window.setInterval(() => setAt((k) => (k + 1) % STAGES.length), 900);
     return () => window.clearInterval(t);
-  }, [inView]);
+  }, [live]);
   return (
     <div ref={ref} className="vis vis-states">
       <ol>

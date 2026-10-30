@@ -8,9 +8,9 @@ const DBS = [
 
 /** Trois bases, trois niveaux de confiance, et n8n en bout de chaîne (viewBox 400 × 520). */
 export function ArchitectureDiagram() {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const { ref, inView, live } = useInView<HTMLDivElement>();
   return (
-    <div ref={ref} className="vis vis-arch" data-on={inView || undefined}>
+    <div ref={ref} className="vis vis-arch" data-on={inView || undefined} data-live={live || undefined}>
       <svg viewBox="0 0 400 520" width="100%" height="100%" aria-label="Architecture d'Averröes">
         <defs>
           <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

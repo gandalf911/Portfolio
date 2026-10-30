@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { animate, stagger } from "animejs";
-import { ArrowDown, Building2, Handshake, Hourglass, Info, LayoutGrid, Moon, Search, SlidersHorizontal, UserRound, UsersRound, Waypoints, type LucideIcon } from "lucide-react";
+import { ArrowDown, Circle, Hourglass, Info, LayoutGrid, Search, SlidersHorizontal, Square, Triangle, UserRound, UsersRound, Waypoints, type LucideIcon } from "lucide-react";
 import { POOL, type Tone } from "../data/fiction";
 import { Avatar } from "../fx/Avatar";
 import { CountUp } from "../fx/CountUp";
@@ -9,10 +9,10 @@ import { useArmed } from "../fx/useArmed";
 import { useEntrance } from "../fx/useEntrance";
 import { T, TONE } from "../theme";
 
-/* Pool d'agents d'un ACC : qui transacte, qui publie sans transacter, qui dort ;
-   puis, agent par agent, les leads reçus et les biens en traitement. */
+/* Pool d'agents d'un ACC : sa répartition en trois segments, puis, agent par agent,
+   deux indicateurs (libellés neutres : la vitrine ne dit pas ce qui est suivi). */
 
-const GROUP_ICON: Record<string, LucideIcon> = { tx: Handshake, pub: Building2, none: Moon };
+const GROUP_ICON: Record<string, LucideIcon> = { s1: Circle, s2: Square, s3: Triangle };
 const color = (t: Tone) => (t === "info" ? "#9fd6cb" : TONE[t].solid);
 const COLS = 14;
 
@@ -74,7 +74,7 @@ function PoolActivity() {
             <b style={{ fontSize: 22, color: T.jadeInk, letterSpacing: "-.02em" }}>
               <CountUp value={conversion} suffix=" %" />
             </b>
-            <span style={{ fontSize: 11, color: T.muted, lineHeight: 1.3 }}>des agents qui publient ont transacté</span>
+            <span style={{ fontSize: 11, color: T.muted, lineHeight: 1.3 }}>du segment 2 passent au segment 1</span>
           </div>
         </div>
         <Waffle />
@@ -109,11 +109,11 @@ function LeadLine({ label, pair, delay }: { label: string; pair: number[]; delay
   );
 }
 
-const PIPE_COLS = ["Tous", "L2M+", "L3W–L2M"];
+const PIPE_COLS = ["Total", "Tranche 1", "Tranche 2"];
 
-function PipeGraph({ platform, advisor }: { platform: number[]; advisor: number[] }) {
+function PipeGraph({ a, b }: { a: number[]; b: number[] }) {
   const w = 300, h = 76, xs = [64, 124, 184], tx = 268, rowY = [26, 60];
-  const total = platform[0] + advisor[0];
+  const total = a[0] + b[0];
   const dot = (x: number, y: number, v: number, tone: string, k: string) => (
     <g key={k}>
       <circle cx={x} cy={y} r={8} fill={v ? T.surface : "transparent"} stroke={v ? tone : T.border} strokeWidth={1.5} strokeDasharray={v ? undefined : "2 2"} />
@@ -122,7 +122,7 @@ function PipeGraph({ platform, advisor }: { platform: number[]; advisor: number[
   );
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{ overflow: "visible", display: "block" }}>
-      {[["Plateforme", platform, T.terracotta], ["Conseiller", advisor, T.jadeCta]].map(([label, vals, tone], r) => {
+      {[["Source A", a, T.terracotta], ["Source B", b, T.jadeCta]].map(([label, vals, tone], r) => {
         const y = rowY[r];
         const v = vals as number[];
         return (
@@ -155,7 +155,7 @@ export function AgentPool() {
       <div className="avw-card" style={{ flex: 1, minHeight: 0, padding: 0, display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "9px 14px", borderBottom: `1px solid ${T.border}` }}>
           <b style={{ fontSize: 12.5 }}>Pool d'agents (84/84)</b>
-          <span style={{ marginLeft: "auto", display: "flex", gap: 6 }}>{["DDR +48h", "Sans pub. > 60 j", "Portefeuille > 0"].map(chip)}</span>
+          <span style={{ marginLeft: "auto", display: "flex", gap: 6 }}>{["Filtre 1", "Filtre 2", "Filtre 3"].map(chip)}</span>
           <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10.5, color: T.muted, border: `1px solid ${T.border}`, borderRadius: 8, padding: "4px 10px", width: 150 }}>
             <Search size={11} aria-hidden /> Rechercher…
           </span>
@@ -163,9 +163,9 @@ export function AgentPool() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "250px 330px 1fr 60px", alignItems: "center", padding: "6px 14px", fontSize: 10.5, color: T.muted, borderBottom: `1px solid ${T.border}` }}>
           <span style={{ display: "flex", gap: 6, alignItems: "center" }}><UserRound size={12} aria-hidden /> Conseiller</span>
-          <span style={{ display: "flex", gap: 6, alignItems: "center", color: T.jadeInk, fontWeight: 600 }}><Waypoints size={12} aria-hidden /> Affectation des leads · 30 j <ArrowDown size={11} aria-hidden /></span>
+          <span style={{ display: "flex", gap: 6, alignItems: "center", color: T.jadeInk, fontWeight: 600 }}><Waypoints size={12} aria-hidden /> Metric 1 · 30 j <ArrowDown size={11} aria-hidden /></span>
           <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
-            <Hourglass size={12} aria-hidden /> Biens en traitement <Info size={11} aria-hidden />
+            <Hourglass size={12} aria-hidden /> Metric 2 <Info size={11} aria-hidden />
           </span>
           <span />
         </div>
@@ -179,10 +179,10 @@ export function AgentPool() {
                 </span>
               </span>
               <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <LeadLine label="Tous" pair={row.leads.all} delay={i * 120} />
-                <LeadLine label="Clusters" pair={row.leads.clusters} delay={i * 120 + 60} />
+                <LeadLine label="Total" pair={row.leads.all} delay={i * 120} />
+                <LeadLine label="Groupe B" pair={row.leads.subset} delay={i * 120 + 60} />
               </span>
-              <PipeGraph platform={row.pipe.platform} advisor={row.pipe.advisor} />
+              <PipeGraph a={row.pipe.srcA} b={row.pipe.srcB} />
               <span style={{ color: T.jadeInk, fontSize: 12.5, fontWeight: 500, textAlign: "right" }}>Fiche</span>
             </div>
           ))}

@@ -16,7 +16,7 @@ function Me({ size }: { size: number }) {
   return (
     <span
       style={{
-        width: size, height: size, borderRadius: "50%", background: T.sapin, color: T.elevated,
+        width: size, height: size, borderRadius: "50%", background: T.sapin, color: T.cream,
         display: "grid", placeItems: "center", fontSize: size * 0.36, fontWeight: 600, flexShrink: 0,
       }}
     >

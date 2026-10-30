@@ -113,7 +113,7 @@ function IsoStreak() {
         }}
         onDoubleClick={() => setAngle(0)}
         onMouseLeave={() => setHover(null)}
-        aria-label="Série de publications en 3D"
+        aria-label="Série d'activité en 3D"
       >
         {prisms.map(({ cell }) => {
           const k = Math.max(0, Math.min(1, grow * 1.5 - (cell.col / weeks) * 0.5));
@@ -128,7 +128,7 @@ function IsoStreak() {
             <g key={cell.date} onMouseEnter={() => setHover(cell)}>
               <polygon points={left} fill={shade(base, 0.62)} />
               <polygon points={right} fill={shade(base, 0.78)} />
-              <polygon points={top} fill={hover?.date === cell.date ? T.elevated : base} />
+              <polygon points={top} fill={hover?.date === cell.date ? T.cream : base} />
             </g>
           );
         })}
@@ -144,16 +144,16 @@ function IsoStreak() {
         })}
       </svg>
 
-      <div style={{ position: "absolute", left: 18, bottom: 6, color: T.elevated, pointerEvents: "none" }}>
+      <div style={{ position: "absolute", left: 18, bottom: 6, color: T.cream, pointerEvents: "none" }}>
         <Record label="Plus longue série" value={STREAK.longest} sub="jours ouvrés" />
         <div style={{ height: 10 }} />
         <Record label="Série en cours" value={STREAK.current} sub="jours ouvrés" />
       </div>
-      <div style={{ position: "absolute", right: 18, top: 10, textAlign: "right", color: T.elevated, pointerEvents: "none", minHeight: 50 }}>
+      <div style={{ position: "absolute", right: 18, top: 10, textAlign: "right", color: T.cream, pointerEvents: "none", minHeight: 50 }}>
         {hover && (
           <>
             <span style={{ fontSize: 34, fontWeight: 700, color: "#4fd6bd", lineHeight: 1 }}>{hover.count}</span>{" "}
-            <span style={{ fontSize: 12 }}>publications</span>
+            <span style={{ fontSize: 12 }}>événements</span>
             <div style={{ fontSize: 10, opacity: 0.6 }}>{new Date(hover.date + "T00:00:00Z").toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "UTC" })}</div>
           </>
         )}
@@ -210,7 +210,7 @@ function LeadFlow() {
   const fill: Record<Tone, string> = { ok: "#1bbfa0", info: "#5aa79b", warn: TONE.warn.solid, alert: T.rose, neutral: "#2c5a52" };
 
   return (
-    <svg width="100%" height={FH} viewBox={`0 0 ${FW} ${FH}`} aria-label="Flux des leads" style={{ display: "block" }}>
+    <svg width="100%" height={FH} viewBox={`0 0 ${FW} ${FH}`} aria-label="Flux, de l'entrée aux sorties" style={{ display: "block" }}>
       {LEAD_FLOW.links.map((l, i) => {
         const a = pos.get(l.from)!, b = pos.get(l.to)!;
         const x1 = a.x + NODE_W, y1 = a.y + NODE_H / 2, x2 = b.x, y2 = b.y + NODE_H / 2;
@@ -235,10 +235,10 @@ function LeadFlow() {
         return (
           <g key={n.id} transform={`translate(${p.x},${p.y})`}>
             <rect width={NODE_W} height={NODE_H} rx={9} fill={fill[n.tone]} />
-            <text x={NODE_W / 2} y={17} textAnchor="middle" fontSize="12" fontWeight="700" fill={T.elevated}>
+            <text x={NODE_W / 2} y={17} textAnchor="middle" fontSize="12" fontWeight="700" fill={T.cream}>
               {formatFr(n.value)}
             </text>
-            <text x={NODE_W / 2} y={31} textAnchor="middle" fontSize="9.5" fill={T.elevated} opacity={0.85}>
+            <text x={NODE_W / 2} y={31} textAnchor="middle" fontSize="9.5" fill={T.cream} opacity={0.85}>
               {n.label}
             </text>
           </g>
@@ -260,7 +260,7 @@ export function PortfolioStreak() {
       <IsoStreak />
       <div style={{ borderTop: "1px solid rgba(132,201,189,.15)", paddingTop: 6 }}>
         <div className="avw-label" style={{ color: "rgba(254,239,224,.6)", padding: "0 12px 2px" }}>
-          Flux des leads, de la réception à la publication
+          Flux, de l'entrée aux sorties
         </div>
         <LeadFlow />
       </div>

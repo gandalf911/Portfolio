@@ -1,8 +1,8 @@
-// La navigation d'Averröes. `screen` marque les sept écrans dont la vitrine est
+// La navigation d'Averröes. `screen` marque les six écrans dont la vitrine est
 // rejouée ici. Les autres restent privés : leur nom n'est même pas dans le code,
 // seulement un faux mot de même longueur, affiché flouté (`masked`).
 
-export type ScreenId = "overview" | "portfolio" | "catalogue" | "onboarding" | "transactions" | "acc" | "scoring";
+export type ScreenId = "portfolio" | "catalogue" | "onboarding" | "transactions" | "acc" | "scoring";
 
 export type NavItem = { label: string; screen?: ScreenId };
 export type NavSegment = { segment: string; items: NavItem[]; locked?: boolean };
@@ -26,7 +26,7 @@ export const NAV: NavSegment[] = [
   {
     segment: "Conseillers",
     items: [
-      { label: "Vue d'ensemble", screen: "overview" },
+      priv(14),
       { label: "Onboarding", screen: "onboarding" },
       priv(11),
       priv(3),

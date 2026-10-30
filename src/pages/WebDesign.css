@@ -1,0 +1,112 @@
+/* /web-design: same language as the other case studies (aurora, serif titles, dark cards).
+   Everything under .wd. */
+.wd {
+  --bg: #0b0b0b;
+  --card: #111111;
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --muted: #9a9a9a;
+  --soft: #bdbdbd;
+  --acc: #ff7a45;
+  --wrap: 1240px;
+  width: 100%;
+  overflow: clip;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter Tight", system-ui, sans-serif;
+  padding-bottom: 140px;
+}
+.wd .serif {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- top ---------- */
+.wd-top { position: relative; overflow: hidden; }
+/* gradients only, no filter: blur() (a large blur repaints on every scroll frame) */
+.wd-aurora { position: absolute; inset: 0; pointer-events: none; }
+.wd-aurora::before,
+.wd-aurora::after { content: ""; position: absolute; border-radius: 50%; }
+.wd-aurora::before {
+  width: 1000px; height: 600px; left: -300px; top: -300px; transform: rotate(-18deg);
+  background: radial-gradient(closest-side, rgba(214, 84, 36, 0.6), rgba(150, 25, 25, 0.3) 55%, transparent);
+}
+.wd-aurora::after {
+  width: 900px; height: 560px; right: -340px; top: -280px; transform: rotate(16deg);
+  background: radial-gradient(closest-side, rgba(200, 70, 30, 0.5), rgba(120, 15, 20, 0.28) 55%, transparent);
+}
+.wd-hero { position: relative; z-index: 2; text-align: center; padding: 70px 16px 0; }
+.wd-eyebrow {
+  display: inline-flex; gap: 10px; align-items: center; border: 1px solid var(--line); border-radius: 999px;
+  padding: 7px 14px; font-size: 13px; color: #cfcfcf; background: rgba(255, 255, 255, 0.03);
+}
+.wd-eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 10px var(--acc); }
+.wd-hero h1 { font-size: clamp(56px, 8vw, 110px); line-height: 0.95; margin: 26px auto 0; }
+.wd-lede { max-width: 680px; margin: 24px auto 0; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.55; color: var(--soft); font-weight: 300; }
+
+/* ---------- one site ---------- */
+.wd-list { max-width: var(--wrap); margin: 0 auto; padding: 110px 24px 0; display: flex; flex-direction: column; gap: 140px; }
+.wd-site { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; align-items: center; }
+
+.wd-info { display: flex; flex-direction: column; align-items: flex-start; }
+.wd-index { font-size: 13px; letter-spacing: 0.14em; color: var(--acc); }
+.wd-info h2 { font-size: clamp(42px, 4.4vw, 60px); line-height: 1; margin-top: 12px; }
+.wd-sector { margin-top: 10px; color: var(--muted); font-size: 15px; }
+.wd-summary { margin-top: 22px; color: var(--soft); font-size: 16px; line-height: 1.65; font-weight: 300; }
+.wd-facts { width: 100%; margin-top: 26px; border-top: 1px solid var(--line); }
+.wd-facts > div { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.wd-facts dt { display: flex; align-items: center; gap: 7px; color: var(--muted); }
+.wd-facts dd { margin: 0; color: var(--text); }
+.wd-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; list-style: none; padding: 0; }
+.wd-chips li { font-size: 12.5px; color: #d6d6d6; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); border-radius: 999px; padding: 5px 11px; }
+.wd-visit {
+  display: inline-flex; align-items: center; gap: 9px; margin-top: 30px; padding: 14px 22px; border-radius: 999px;
+  background: #fff; color: #0b0b0b; font-size: 15px; font-weight: 500;
+  transition: gap 0.3s ease, transform 0.3s ease;
+}
+.wd-visit:hover { gap: 13px; transform: translateY(-1px); }
+
+/* ---------- devices ---------- */
+.wd-devices { position: relative; padding: 0 0 90px 100px; }
+.wd-browser {
+  position: relative; border-radius: 14px; overflow: hidden; background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55);
+}
+.wd-bar { display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; background: #1c1c1c; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.wd-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
+.wd-bar i:nth-child(1) { background: #ff5f57; }
+.wd-bar i:nth-child(2) { background: #febc2e; }
+.wd-bar i:nth-child(3) { background: #28c840; }
+.wd-bar span { margin-left: 14px; flex: 1; max-width: 320px; font-size: 12px; color: #9a9a9a; background: #262626; border-radius: 7px; padding: 4px 12px; }
+.wd-screen { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; }
+.wd-screen img {
+  position: absolute; left: 0; top: 0; width: 100%; height: auto; display: block;
+  transition: top 1.1s cubic-bezier(0.4, 0, 0.2, 1), transform 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.wd-browser:hover .wd-screen img {
+  top: 100%; transform: translateY(-100%);
+  transition: top 12s cubic-bezier(0.45, 0, 0.55, 1), transform 12s cubic-bezier(0.45, 0, 0.55, 1);
+}
+.wd-hint {
+  position: absolute; right: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: #fff; background: rgba(11, 11, 11, 0.72); border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px; padding: 6px 11px; pointer-events: none; transition: opacity 0.3s ease;
+}
+.wd-browser:hover .wd-hint { opacity: 0; }
+.wd-phone {
+  position: absolute; left: 0; bottom: 0; width: 23%; aspect-ratio: 390 / 844; border-radius: 26px; overflow: hidden;
+  border: 6px solid #1c1c1c; background: #fff; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+}
+.wd-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+
+/* ---------- tablet & phone ---------- */
+@media (max-width: 1199.98px) {
+  .wd-site { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (max-width: 809.98px) {
+  .wd-list { padding: 80px 20px 0; gap: 100px; }
+  .wd-devices { padding: 0 0 56px 70px; }
+  .wd-phone { width: 27%; border-width: 4px; border-radius: 18px; }
+  .wd-hint { display: none; }
+}

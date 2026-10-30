@@ -12,13 +12,13 @@ const MODULES: { label: string; icon: LucideIcon }[] = [
 
 /** Les cinq modules s'allument tour à tour autour du logo. */
 export function ProductModules() {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const { ref, live } = useInView<HTMLDivElement>();
   const [on, setOn] = useState(0);
   useEffect(() => {
-    if (!inView || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (!live || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const t = window.setInterval(() => setOn((k) => (k + 1) % MODULES.length), 1400);
     return () => window.clearInterval(t);
-  }, [inView]);
+  }, [live]);
   return (
     <div ref={ref} className="vis vis-modules">
       <div className="hub-dot">31<small>screens</small></div>

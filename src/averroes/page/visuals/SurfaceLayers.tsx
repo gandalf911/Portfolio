@@ -15,9 +15,9 @@ const ROWS = ["Amine S.", "Hiba G.", "Sara M.", "Reda J."];
  * descend de la tuile à sa barre, puis à la ligne qui la justifie.
  */
 export function SurfaceLayers() {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const { ref, inView, live } = useInView<HTMLDivElement>();
   return (
-    <div ref={ref} className="vis vis-surface" data-on={inView || undefined}>
+    <div ref={ref} className="vis vis-surface" data-on={inView || undefined} data-live={live || undefined}>
       <div className="planes">
         <div className="plane plane-0">
           <span className="plane-tag">Scan</span>

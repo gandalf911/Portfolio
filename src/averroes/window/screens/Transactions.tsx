@@ -1,114 +1,166 @@
 import { useRef } from "react";
-import {
-  BarChart3, BookCheck, CircleCheck, ClipboardList, FileText, GitBranch, LayoutGrid, Receipt, Scale, ShieldCheck, Tag, Wallet, Home, type LucideIcon,
-} from "lucide-react";
+import { BarChart3, Filter, GitBranch, LayoutGrid, LineChart, PieChart, type LucideIcon } from "lucide-react";
 import { MONTHS, TX } from "../data/fiction";
 import { Card } from "../fx/Card";
 import { CountUp } from "../fx/CountUp";
 import { useArmed } from "../fx/useArmed";
 import { useEntrance } from "../fx/useEntrance";
-import { T } from "../theme";
+import { SERIES, T } from "../theme";
+
+/* Demande › Transactions, ses trois graphes : la courbe mensuelle, l'entonnoir des
+   étapes et la répartition. Libellés neutres : la vitrine ne dit pas ce qui est suivi. */
 
 const SUBTABS: { label: string; icon: LucideIcon }[] = [
   { label: "Hub", icon: LayoutGrid },
-  { label: "Pipe", icon: BarChart3 },
   { label: "Transactions", icon: GitBranch },
-  { label: "Transactions certaines", icon: ShieldCheck },
-  { label: "Facturation", icon: Receipt },
-  { label: "Déclarations", icon: ClipboardList },
   { label: "Analyse", icon: BarChart3 },
-  { label: "Réconciliation", icon: Scale },
 ];
 
-const big = { fontSize: 34, fontWeight: 600, color: T.jadeCta, letterSpacing: "-.02em", lineHeight: 1 } as const;
+const big = { fontSize: 30, fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1 } as const;
 
-function MiniBars({ values, labels, height = 34, highlight = -1 }: { values: number[]; labels: string[]; height?: number; highlight?: number }) {
-  const armed = useArmed(300);
-  const max = Math.max(...values);
-  return (
-    <div style={{ display: "flex", gap: 8, alignItems: "flex-end", height: height + 14 }}>
-      {values.map((v, i) => (
-        <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%", gap: 3 }}>
-          <div style={{ height: armed ? `${Math.max(6, (v / max) * height)}px` : "0px", borderRadius: 4, background: i === highlight ? T.jadeCta : "#6fd3bf", transition: `height .8s cubic-bezier(.2,.8,.2,1) ${i * 70}ms` }} />
-          <span style={{ fontSize: 8, color: T.muted, textAlign: "center" }}>{labels[i]}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Ribbon() {
-  const armed = useArmed(350);
-  const rate = 65.4;
-  const segs = [
-    { label: "Déclaré", value: TX.declared, color: T.jadeCta },
-    { label: "Facturé", value: TX.billed, color: T.jadeCta },
-    { label: "Payé", value: TX.paid, color: T.jade },
+/** Deux séries en aires, tracées de gauche à droite. */
+function Trend() {
+  const armed = useArmed(250);
+  // the axis starts under the lowest point, not at 0, so the trend reads
+  const W = 600, H = 200, top = Math.max(...TX.m1) * 1.08, floor = Math.min(...TX.m2) * 0.55;
+  const pts = (v: number[]) => v.map((y, i) => [(i / (v.length - 1)) * W, H - ((y - floor) / (top - floor)) * H] as const);
+  const line = (v: number[]) => pts(v).map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join(" ");
+  const area = (v: number[]) => `${line(v)} L${W},${H} L0,${H} Z`;
+  const series = [
+    { key: "m1", label: "Metric 1", values: TX.m1, color: T.jadeCta },
+    { key: "m2", label: "Metric 2", values: TX.m2, color: T.terracotta },
   ];
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 14 }}>
-        <span style={big}>
-          <CountUp value={rate} decimals={1} suffix=" %" />
-        </span>
-        <span className="avw-label">Taux d'encaissement</span>
-      </div>
-      <div style={{ fontSize: 10, color: T.muted, marginTop: 6 }}>Chaque déclaration suivie jusqu'au paiement, contrôles compris.</div>
-      <div style={{ display: "flex", gap: 6, marginTop: "auto" }}>
-        {segs.map((s, i) => (
-          <div key={s.label} style={{ flex: 1, height: 6, borderRadius: 6, background: T.infoSoft, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: armed ? "100%" : "0%", background: s.color, borderRadius: 6, transition: `width .7s ease ${i * 420}ms` }} />
+    <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", gap: 26, marginTop: 10 }}>
+        {series.map((s) => (
+          <div key={s.key}>
+            <div style={{ ...big, color: s.color }}>
+              <CountUp value={s.values.reduce((a, b) => a + b, 0)} />
+            </div>
+            <div className="avw-label" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: s.color }} /> {s.label} · cumul 2026
+            </div>
           </div>
         ))}
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 7 }}>
-        {segs.map((s) => (
-          <span key={s.label} className="avw-label">
-            {s.label} · <b style={{ color: T.text }}>{s.value}</b>
-          </span>
+      <div style={{ position: "relative", flex: 1, minHeight: 0, marginTop: 12 }}>
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" width="100%" height="100%" style={{ position: "absolute", inset: 0, display: "block", overflow: "visible" }} aria-label="Metric 1 et Metric 2 par mois">
+          <defs>
+            <clipPath id="tx-reveal">
+              <rect x="0" y="-10" height={H + 20} width={armed ? W : 0} style={{ transition: "width 1.4s cubic-bezier(.2,.8,.2,1)" }} />
+            </clipPath>
+            {series.map((s) => (
+              <linearGradient key={s.key} id={`tx-fill-${s.key}`} x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stopColor={s.color} stopOpacity=".28" />
+                <stop offset="1" stopColor={s.color} stopOpacity="0" />
+              </linearGradient>
+            ))}
+          </defs>
+          {[0.25, 0.5, 0.75].map((f) => (
+            <line key={f} x1="0" x2={W} y1={H * f} y2={H * f} stroke={T.border} strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
+          ))}
+          <g clipPath="url(#tx-reveal)">
+            {series.map((s) => (
+              <g key={s.key}>
+                <path d={area(s.values)} fill={`url(#tx-fill-${s.key})`} />
+                <path d={line(s.values)} fill="none" stroke={s.color} strokeWidth="2.2" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+              </g>
+            ))}
+          </g>
+        </svg>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
+        {MONTHS.map((m) => (
+          <span key={m} style={{ fontSize: 9, color: T.muted }}>{m}</span>
         ))}
       </div>
     </div>
   );
 }
 
-function Pipeline() {
-  const armed = useArmed(300);
-  const max = TX.stages[0].value;
+/** Entonnoir : une barre centrée par étape, le taux de passage entre deux. */
+function Funnel() {
+  const armed = useArmed(350);
+  const max = TX.funnel[0].value;
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1, marginTop: 10 }}>
-      {TX.stages.map((s, i) => (
-        <div key={s.label}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11 }}>
-            <span>{s.label}</span>
-            <b style={{ fontVariantNumeric: "tabular-nums" }}>{s.value}</b>
+    <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", justifyContent: "space-between", marginTop: 12 }}>
+      {TX.funnel.map((s, i) => {
+        const pct = (s.value / max) * 100;
+        const next = TX.funnel[i + 1];
+        return (
+          <div key={s.label} style={{ display: "grid", gridTemplateColumns: "52px 1fr 40px 38px", alignItems: "center", gap: 10, fontSize: 11 }}>
+            <span style={{ color: T.muted }}>{s.label}</span>
+            <span style={{ display: "flex", justifyContent: "center", height: 20 }}>
+              <span
+                style={{
+                  width: armed ? `${pct}%` : "0%",
+                  borderRadius: 6,
+                  background: SERIES[0],
+                  opacity: 1 - i * 0.13,
+                  transition: `width 1s cubic-bezier(.2,.8,.2,1) ${i * 110}ms`,
+                }}
+              />
+            </span>
+            <b style={{ textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.value.toLocaleString("fr-FR")}</b>
+            <span style={{ textAlign: "right", fontSize: 9.5, color: T.muted, fontVariantNumeric: "tabular-nums" }}>
+              {next ? `→ ${Math.round((next.value / s.value) * 100)} %` : ""}
+            </span>
           </div>
-          <div style={{ height: 7, borderRadius: 7, background: T.infoSoft, marginTop: 5, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: armed ? `${(s.value / max) * 100}%` : "0%", borderRadius: 7, background: T.jadeCta, transition: `width 1s cubic-bezier(.2,.8,.2,1) ${i * 90}ms` }} />
-          </div>
-        </div>
-      ))}
-      <div style={{ fontSize: 10, color: T.muted, borderTop: `1px solid ${T.border}`, paddingTop: 8 }}>
-        Top 5 étapes · <b style={{ color: T.text }}>1 747</b> deals hors annulés
-      </div>
+        );
+      })}
     </div>
   );
 }
 
-function PipeForecast() {
+/** Répartition en anneau : légende à gauche, disque à droite qui remplit son cadre. */
+function Mix() {
   const armed = useArmed(450);
-  const vals = [1, 2, 1, 6, 2, 9];
-  const labels = MONTHS.slice(4);
+  const total = TX.mix.reduce((a, m) => a + m.value, 0);
+  const colors = [T.jadeCta, T.jade, T.terracotta, T.rose];
+  const R = 40, C = 2 * Math.PI * R;
+  let acc = 0;
   return (
-    <div style={{ flex: 1, display: "flex", flexDirection: "column", marginTop: 16, minHeight: 0 }}>
-      <div className="avw-label">Lignes ajoutées · 6 derniers mois</div>
-      <div style={{ display: "flex", gap: 18, alignItems: "flex-end", flex: 1, marginTop: 8 }}>
-        {vals.map((v, i) => (
-          <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%", gap: 4 }}>
-            <div style={{ height: armed ? `${(v / 9) * 88}%` : "0%", borderRadius: "5px 5px 2px 2px", background: i === vals.length - 1 ? T.jadeCta : "#7fd8c6", transition: `height .9s cubic-bezier(.2,.8,.2,1) ${i * 80}ms` }} />
-            <span style={{ fontSize: 8, color: T.muted, textAlign: "center" }}>{labels[i]}</span>
+    <div style={{ flex: 1, minHeight: 0, display: "flex", alignItems: "center", gap: 14, marginTop: 8 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, width: 128, flexShrink: 0 }}>
+        {TX.mix.map((m, i) => (
+          <div key={m.label} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 11.5 }}>
+            <span style={{ width: 9, height: 9, borderRadius: 3, background: colors[i], flexShrink: 0 }} />
+            <span style={{ flex: 1 }}>{m.label}</span>
+            <b style={{ fontVariantNumeric: "tabular-nums" }}>{m.value} %</b>
           </div>
         ))}
+      </div>
+      <div style={{ position: "relative", flex: 1, height: "100%", minHeight: 0 }}>
+        <svg viewBox="0 0 100 100" width="100%" height="100%" style={{ position: "absolute", inset: 0, display: "block" }} aria-label="Répartition par catégorie">
+          <g transform="rotate(-90 50 50)">
+            {TX.mix.map((m, i) => {
+              const len = (m.value / total) * C;
+              const off = acc;
+              acc += len;
+              return (
+                <circle
+                  key={m.label}
+                  cx="50"
+                  cy="50"
+                  r={R}
+                  fill="none"
+                  stroke={colors[i]}
+                  strokeWidth="17"
+                  strokeDasharray={`${armed ? Math.max(0, len - 1.2) : 0} ${C}`}
+                  strokeDashoffset={-off}
+                  style={{ transition: `stroke-dasharray .9s cubic-bezier(.2,.8,.2,1) ${i * 160}ms` }}
+                />
+              );
+            })}
+          </g>
+          <text x="50" y="49" textAnchor="middle" fontSize="11" fontWeight="600" fill={T.text}>
+            {TX.mix[0].value} %
+          </text>
+          <text x="50" y="60" textAnchor="middle" fontSize="5.5" fill={T.muted}>
+            {TX.mix[0].label}
+          </text>
+        </svg>
       </div>
     </div>
   );
@@ -122,83 +174,26 @@ export function Transactions() {
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
         <div>
           <div style={{ fontSize: 17, fontWeight: 600 }}>Transactions</div>
-          <div style={{ fontSize: 11, color: T.muted }}>Déclaration, parcours, facturation et pipe, le prévisionnel des ACC.</div>
+          <div style={{ fontSize: 11, color: T.muted }}>Chaque transaction suivie de bout en bout, mois par mois.</div>
         </div>
         <div style={{ display: "flex", gap: 2, background: T.surface, borderRadius: 12, padding: 4, border: `1px solid ${T.border}` }}>
-          {SUBTABS.map(({ label, icon: Icon }, i) => (
-            <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 10.5, padding: "5px 9px", borderRadius: 9, background: i === 0 ? T.jadeCta : "transparent", color: i === 0 ? "#fff" : T.muted, whiteSpace: "nowrap" }}>
+          {SUBTABS.map(({ label, icon: Icon }) => (
+            <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 10.5, padding: "5px 9px", borderRadius: 9, background: label === "Transactions" ? T.jadeCta : "transparent", color: label === "Transactions" ? "#fff" : T.muted, whiteSpace: "nowrap" }}>
               <Icon size={11} aria-hidden /> {label}
             </span>
           ))}
         </div>
       </div>
 
-      <div style={{ flex: 1, minHeight: 0, display: "grid", gap: 14, gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gridTemplateRows: "repeat(2, minmax(0, 1fr))", gridTemplateAreas: `"dec pipe tx" "flow pipe stages"` }}>
-        <Card icon={FileText} title="Déclaration" style={{ gridArea: "dec" }}>
-          <div style={{ ...big, marginTop: 12 }}>
-            <CountUp value={TX.declared} />
-          </div>
-          <div className="avw-label" style={{ marginTop: 4 }}>Déclarées ce mois</div>
-          <div style={{ marginTop: 12 }}>
-            <MiniBars values={[31, 36, 39, 29, 52, 47]} labels={MONTHS.slice(4)} height={62} highlight={4} />
-          </div>
+      <div style={{ flex: 1, minHeight: 0, display: "grid", gap: 14, gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gridTemplateRows: "minmax(0, 1.1fr) minmax(0, 1fr)", gridTemplateAreas: `"trend trend" "funnel mix"` }}>
+        <Card icon={LineChart} title="Par mois" style={{ gridArea: "trend", display: "flex", flexDirection: "column" }}>
+          <Trend />
         </Card>
-
-        <Card icon={Wallet} title="Du déclaré à l'encaissé" style={{ gridArea: "flow", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <Ribbon />
+        <Card icon={Filter} title="Entonnoir" style={{ gridArea: "funnel", display: "flex", flexDirection: "column" }}>
+          <Funnel />
         </Card>
-
-        <Card icon={BarChart3} title="Pipe" style={{ gridArea: "pipe", display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 10, color: T.muted, marginTop: 8 }}>Le prévisionnel des ACC, une ligne par bien en cours de closing.</div>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 22, marginTop: 14 }}>
-            <div>
-              <div style={{ ...big, fontSize: 46 }}>
-                <CountUp value={5} />
-              </div>
-              <div className="avw-label" style={{ marginTop: 4 }}>Lignes actives</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
-                <Wallet size={14} color={T.jadeCta} aria-hidden /> 58 000 MAD
-              </div>
-              <div className="avw-label" style={{ marginTop: 4 }}>Volume prévisionnel</div>
-            </div>
-          </div>
-          <div style={{ height: 6, borderRadius: 6, background: T.jade, marginTop: 14 }} />
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 9, color: T.muted, marginTop: 5 }}>
-            <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Home size={10} aria-hidden /> Vente · 2</span>
-            <span style={{ display: "flex", gap: 4, alignItems: "center" }}><Tag size={10} aria-hidden /> Location · 3</span>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 12 }}>
-            {[["Ticket moyen", "11 600 MAD"], ["Sans référence", "1"]].map(([k, v]) => (
-              <div key={k} style={{ background: "rgba(26,52,49,.05)", borderRadius: 10, padding: "8px 10px", border: `1px solid ${T.border}` }}>
-                <div className="avw-label">{k}</div>
-                <div style={{ fontSize: 13, fontWeight: 600, marginTop: 3 }}>{v}</div>
-              </div>
-            ))}
-          </div>
-          <PipeForecast />
-        </Card>
-
-        <Card icon={CircleCheck} title="Transactions" style={{ gridArea: "tx" }}>
-          <div style={{ ...big, marginTop: 12 }}>
-            <CountUp value={TX.paid} />
-          </div>
-          <div className="avw-label" style={{ marginTop: 4 }}>Paiements reçus</div>
-          <div style={{ marginTop: 12 }}>
-            <MiniBars values={[96, 118, 104, 131, 88, 142]} labels={MONTHS.slice(4)} height={40} highlight={5} />
-          </div>
-          <div style={{ display: "flex", gap: 6, marginTop: 12 }}>
-            {["Déclaration", "Facturation", "Paiement"].map((c) => (
-              <span key={c} style={{ fontSize: 9.5, padding: "3px 9px", borderRadius: 999, background: "rgba(26,52,49,.06)", border: `1px solid ${T.border}` }}>
-                {c}
-              </span>
-            ))}
-          </div>
-        </Card>
-
-        <Card icon={BookCheck} title="Pipeline par étape" style={{ gridArea: "stages", display: "flex", flexDirection: "column" }}>
-          <Pipeline />
+        <Card icon={PieChart} title="Répartition" style={{ gridArea: "mix", display: "flex", flexDirection: "column" }}>
+          <Mix />
         </Card>
       </div>
     </div>

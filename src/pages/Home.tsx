@@ -1,17 +1,16 @@
 import { motion } from "motion/react";
 import { pick, useBreakpoint } from "../lib/breakpoint";
-import { ABOUT, ACHIEVEMENTS, EMAIL, FAQS, HERO_TITLE, PROJECTS, SERVICES, STACK_ROW_1, STACK_ROW_2, STATS, type Logo } from "../content";
-import { ButtonSecondary } from "../components/buttons";
+import { ABOUT, ACHIEVEMENTS, EMAIL, FAQS, HERO, PROJECTS, SERVICES, STACK, STATS } from "../content";
+import { ButtonPrimary, ButtonSecondary } from "../components/buttons";
 import { FaqList } from "../components/Faq";
-import { LiquidMetal } from "../components/LiquidMetal";
 import { Particles } from "../components/Particles";
 import { ProgressBox } from "../components/ProgressBox";
 import { FlowGallery } from "../components/FlowGallery";
 import { EASE, LINEAR } from "../components/Reveal";
 import { ServiceStack } from "../components/ServiceStack";
 import { SmoothScroll } from "../components/SmoothScroll";
+import { StackLogos } from "../components/StackLogos";
 import { TextReveal } from "../components/TextReveal";
-import { Ticker } from "../components/Ticker";
 import { WordAppear } from "../components/WordAppear";
 import { Journey } from "./Journey";
 import "./Home.css";
@@ -53,18 +52,6 @@ function SectionShade({
       </motion.div>
       <img className="shade__glow" src={glow} alt="" />
     </motion.div>
-  );
-}
-
-function StackLogo({ logo }: { logo: Logo }) {
-  return (
-    <div className="stack-logo" style={{ width: logo.w, height: logo.h, borderRadius: logo.radius ?? 10 }}>
-      {logo.liquidMetal ? (
-        <LiquidMetal dispersion={0.015} edge={0.4} liquify={0.07} patternBlur={0.005} patternScale={2} speed={0.3} />
-      ) : (
-        <img src={logo.src} alt={logo.name} draggable={false} />
-      )}
-    </div>
   );
 }
 
@@ -121,7 +108,48 @@ export function Home() {
 
         <div className="hero__container">
           <div className="hero__title">
-            <WordAppear text={HERO_TITLE} className={`t-h1${phone ? " ta-center" : ""}`} disabled={phone} />
+            <motion.p
+              className="hero__role"
+              initial={phone ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE }}
+            >
+              <span className="hero__dot" aria-hidden />
+              {HERO.role}
+            </motion.p>
+            <WordAppear text={HERO.title} className="t-h1 hero__headline" disabled={phone} />
+            <motion.p
+              className="t-body-lg hero__text"
+              initial={phone ? false : { opacity: 0, y: 12, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.55, duration: 0.7, ease: EASE }}
+            >
+              {HERO.text}
+            </motion.p>
+            <motion.div
+              className="hero__actions"
+              initial={phone ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.7, ease: EASE }}
+            >
+              <ButtonPrimary label="See my work" href="#projects" />
+              <a className="hero__link" href="#contact">
+                Get in touch
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
+                  <path d="M1 13 13 1m0 0H3.25M13 1v9.75" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </motion.div>
+            <motion.ul
+              className="hero__proof"
+              initial={phone ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9, duration: 0.8, ease: EASE }}
+            >
+              {HERO.proof.map((p) => (
+                <li key={p}>{p}</li>
+              ))}
+            </motion.ul>
           </div>
           <motion.div
             className="hero__image-wrap"
@@ -130,7 +158,7 @@ export function Home() {
             transition={{ delay: 0, duration: 0.8, ease: EASE }}
           >
             <div className="hero__image">
-              <img src="/images/portrait.png" alt="" />
+              <img src="/images/portrait-hero.jpg" alt="Portrait of Ziad Begdouri" />
             </div>
           </motion.div>
         </div>
@@ -237,16 +265,7 @@ export function Home() {
       {/* ---------- The Stack ---------- */}
       <div className="stack">
         <h2 className="t-h2 stack__title">The Stack</h2>
-        <Ticker className="stack__row">
-          {STACK_ROW_1.map((l) => (
-            <StackLogo key={l.name} logo={l} />
-          ))}
-        </Ticker>
-        <Ticker className="stack__row" reverse>
-          {STACK_ROW_2.map((l) => (
-            <StackLogo key={l.name} logo={l} />
-          ))}
-        </Ticker>
+        <StackLogos items={STACK} />
       </div>
 
       {/* ---------- My Journey ---------- */}

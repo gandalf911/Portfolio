@@ -59,33 +59,6 @@ export const ADVISORS: Person[] = [
 
 export const MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct"];
 
-/* ---------- Conseillers › Vue d'ensemble ---------- */
-export const OVERVIEW = {
-  retention: {
-    pct: 23.4,
-    remaining: 612,
-    total: 2614,
-    avgMonths: 6.2,
-    buckets: [
-      { label: "< 3 m", value: 41 },
-      { label: "3–6 m", value: 52 },
-      { label: "6–12 m", value: 37 },
-      { label: "12–24 m", value: 9 },
-      { label: "24 m +", value: 4 },
-    ],
-  },
-  network: { active: 612, recruitedThisYear: 1060 },
-  recoveryPct: 71.8,
-  onboarding: { score: 4.5, responses: 148 },
-  unpaid: { count: 19, example: ADVISORS[9], months: 5 },
-  spotlight: { acc: ACCS[2], recruits: 24, month: "octobre" },
-  topScoring: [
-    { who: ADVISORS[0], score: 3.9, profile: { offre: 4.2, demande: 2.6, tx: 4.6 } },
-    { who: ADVISORS[6], score: 3.7, profile: { offre: 3.4, demande: 3.9, tx: 3.8 } },
-    { who: ADVISORS[3], score: 3.5, profile: { offre: 4.6, demande: 1.8, tx: 3.9 } },
-  ],
-};
-
 /* ---------- Offre › Portfolio Bien : série de publications ---------- */
 function buildStreak() {
   const days: { date: string; count: number }[] = [];
@@ -114,14 +87,14 @@ export const LEAD_FLOW: {
   links: { from: string; to: string; value: number }[];
 } = {
   nodes: [
-    { id: "leads", label: "Leads reçus", value: 41820, tone: "neutral" },
-    { id: "platform", label: "Leads plateforme", value: 30210, tone: "info" },
-    { id: "advisor", label: "Leads conseiller", value: 11610, tone: "ok" },
-    { id: "qualified", label: "Qualifiés", value: 9840, tone: "ok" },
-    { id: "unqualified", label: "Non qualifiés", value: 18960, tone: "alert" },
-    { id: "listed", label: "Publiés", value: 4210, tone: "ok" },
-    { id: "rejected", label: "Rejetés", value: 61, tone: "warn" },
-    { id: "archived", label: "Archivés", value: 20830, tone: "alert" },
+    { id: "leads", label: "Total", value: 41820, tone: "neutral" },
+    { id: "platform", label: "Source A", value: 30210, tone: "info" },
+    { id: "advisor", label: "Source B", value: 11610, tone: "ok" },
+    { id: "qualified", label: "Groupe 1", value: 9840, tone: "ok" },
+    { id: "unqualified", label: "Groupe 2", value: 18960, tone: "alert" },
+    { id: "listed", label: "Sortie A", value: 4210, tone: "ok" },
+    { id: "rejected", label: "Sortie B", value: 61, tone: "warn" },
+    { id: "archived", label: "Sortie C", value: 20830, tone: "alert" },
   ],
   links: [
     { from: "leads", to: "platform", value: 30210 },
@@ -167,30 +140,35 @@ function buildCohorts() {
   return {
     months: MONTHS,
     rows: [
-      { label: "Recrutés", values: recruited, kind: "count" as const },
-      { label: "Contrat signé", values: signed, kind: "count" as const },
-      { label: "% contrat signé", values: pct(signed, recruited), kind: "pct" as const },
-      { label: "E-learning terminé", values: elearning, kind: "count" as const },
-      { label: "% e-learning / contrat signé (cible 90 %)", values: pct(elearning, signed), kind: "pct" as const },
-      { label: "Actif · Leads On", values: leadsOn, kind: "count" as const },
-      { label: "Délai médian contrat → Leads On (j)", values: [null, 34, 21, 12, 13, 12, 13, 10, 8, 6], kind: "days" as const },
-      { label: "Satisfaction onboarding", values: [4.8, 4.4, 4.5, 4.2, 4.3, 4.4, 4.5, 4.4, 4.6, 4.7], kind: "score" as const },
+      { label: "Metric 1", values: recruited, kind: "count" as const },
+      { label: "Metric 2", values: signed, kind: "count" as const },
+      { label: "% Metric 2 / Metric 1", values: pct(signed, recruited), kind: "pct" as const },
+      { label: "Metric 3", values: elearning, kind: "count" as const },
+      { label: "% Metric 3 / Metric 2 (cible 90 %)", values: pct(elearning, signed), kind: "pct" as const },
+      { label: "Metric 4", values: leadsOn, kind: "count" as const },
+      { label: "Délai médian Metric 2 → Metric 4 (j)", values: [null, 34, 21, 12, 13, 12, 13, 10, 8, 6], kind: "days" as const },
+      { label: "Metric 5 (note)", values: [4.8, 4.4, 4.5, 4.2, 4.3, 4.4, 4.5, 4.4, 4.6, 4.7], kind: "score" as const },
     ] as { label: string; values: (number | null)[]; kind: "count" | "pct" | "days" | "score" }[],
   };
 }
 export const COHORTS = buildCohorts();
 
-/* ---------- Demande › Transactions ---------- */
+/* ---------- Demande › Transactions : courbe, entonnoir, répartition (libellés neutres) ---------- */
 export const TX = {
-  declared: 44,
-  billed: 682,
-  paid: 1164,
-  stages: [
-    { label: "Paiement exécuté", value: 948 },
-    { label: "Facture définitive envoyée", value: 251 },
-    { label: "Facture proforma envoyée", value: 233 },
-    { label: "Paiement constaté", value: 176 },
-    { label: "BC envoyé au conseiller", value: 139 },
+  m1: [38, 44, 41, 52, 47, 58, 49, 55, 63, 71],
+  m2: [22, 27, 25, 31, 30, 36, 29, 35, 41, 46],
+  funnel: [
+    { label: "Étape 1", value: 1420 },
+    { label: "Étape 2", value: 1085 },
+    { label: "Étape 3", value: 812 },
+    { label: "Étape 4", value: 566 },
+    { label: "Étape 5", value: 431 },
+  ],
+  mix: [
+    { label: "Catégorie A", value: 46 },
+    { label: "Catégorie B", value: 27 },
+    { label: "Catégorie C", value: 17 },
+    { label: "Catégorie D", value: 10 },
   ],
 };
 
@@ -204,15 +182,15 @@ export const ACC_SERIES = {
 };
 
 export const TROPHIES: { title: string; acc: Person; detail: string; tone: "jade" | "gold" | "sapin" | "rose" }[] = [
-  { title: "Recruteur du mois", acc: ACCS[2], detail: "24 recrues", tone: "jade" },
-  { title: "Publicationniste du mois", acc: ACCS[0], detail: "81 biens publiés", tone: "gold" },
-  { title: "As de la vente", acc: ACCS[3], detail: "9 ventes", tone: "sapin" },
-  { title: "As de la location", acc: ACCS[1], detail: "17 locations", tone: "rose" },
+  { title: "Prix A", acc: ACCS[2], detail: "24 · Metric 1", tone: "jade" },
+  { title: "Prix B", acc: ACCS[0], detail: "81 · Metric 2", tone: "gold" },
+  { title: "Prix C", acc: ACCS[3], detail: "9 · Metric 3", tone: "sapin" },
+  { title: "Prix D", acc: ACCS[1], detail: "17 · Metric 4", tone: "rose" },
 ];
 
 /* ---------- Conseillers › Scoring ---------- */
 export const SCORING = {
-  profile: { offre: 4.1, demande: 1.4, tx: 4.6 },
+  profile: { m1: 4.1, m2: 1.4, m3: 4.6 },
   global: 3.68,
   who: ADVISORS[0],
   risers: [
@@ -231,28 +209,28 @@ export const SCORING = {
   ],
 };
 
-/* ---------- Offre › Portfolio Bien : cycle de vie (état courant du parc) ---------- */
+/* ---------- Offre › Portfolio Bien : cycle de vie (étapes neutres) ---------- */
 export const LIFECYCLE: { label: string; value: number; tone: Tone }[] = [
-  { label: "Soumis", value: 1180, tone: "info" },
-  { label: "Qualification", value: 3720, tone: "info" },
-  { label: "Affectation", value: 260, tone: "info" },
-  { label: "En traitement", value: 2810, tone: "info" },
-  { label: "Finalisé", value: 18, tone: "ok" },
-  { label: "Rejeté", value: 52, tone: "warn" },
-  { label: "Publié", value: 3050, tone: "ok" },
-  { label: "Suspendu", value: 88, tone: "warn" },
-  { label: "Vendu", value: 570, tone: "ok" },
-  { label: "Vendu hors PF", value: 1640, tone: "neutral" },
-  { label: "Archivé", value: 15072, tone: "alert" },
+  { label: "Étape 1", value: 1180, tone: "info" },
+  { label: "Étape 2", value: 3720, tone: "info" },
+  { label: "Étape 3", value: 260, tone: "info" },
+  { label: "Étape 4", value: 2810, tone: "info" },
+  { label: "Étape 5", value: 18, tone: "ok" },
+  { label: "Étape 6", value: 52, tone: "warn" },
+  { label: "Étape 7", value: 3050, tone: "ok" },
+  { label: "Étape 8", value: 88, tone: "warn" },
+  { label: "Étape 9", value: 570, tone: "ok" },
+  { label: "Étape 10", value: 1640, tone: "neutral" },
+  { label: "Étape 11", value: 15072, tone: "alert" },
 ];
 
-/* ---------- Offre › Catalogue : scoring des biens publiés (attractivité × priorité) ---------- */
+/* ---------- Offre › Catalogue : scoring des biens publiés (Metric 1 × Metric 2) ---------- */
 function buildPropertyScores() {
   const pts: { x: number; y: number }[] = [];
   const gauss = () => (r() + r() + r() + r() - 2) / 2; // ~N(0, 0.58)
   for (let i = 0; i < 3120; i++) {
     const x = Math.max(12, Math.min(94, 54 + gauss() * 26));
-    // la priorité tombe sur des paliers (barème à points), resserrée autour de 35
+    // l'axe y tombe sur des paliers, resserré autour de 35
     const y = Math.max(12, Math.min(80, Math.round((36 + gauss() * 17 + (x > 60 ? -2 : 3)) / 3) * 3));
     pts.push({ x, y });
   }
@@ -265,8 +243,8 @@ function buildPropertyScores() {
     b.n++;
     bins.set(key, b);
   }
-  const quad = (x: number, y: number) => (x >= mx ? (y >= my ? "engine" : "blind") : y >= my ? "rework" : "radar");
-  const counts = { engine: 0, blind: 0, rework: 0, radar: 0 };
+  const quad = (x: number, y: number) => (x >= mx ? (y >= my ? "a" : "b") : y >= my ? "c" : "d");
+  const counts = { a: 0, b: 0, c: 0, d: 0 };
   for (const p of pts) counts[quad(p.x, p.y)]++;
   return { total: pts.length, medianX: mx, medianY: my, bins: [...bins.values()], counts, quad };
 }
@@ -301,22 +279,48 @@ export const LISTING_MIX: SunNode[] = [
 /* ---------- Offre › ACC : pool d'agents ---------- */
 export const POOL = {
   groups: [
-    { key: "tx", label: "A transacté", count: 30, tone: "alert" as Tone },
-    { key: "pub", label: "A publié, sans transaction", count: 24, tone: "warn" as Tone },
-    { key: "none", label: "Jamais publié", count: 30, tone: "info" as Tone },
+    { key: "s1", label: "Segment 1", count: 30, tone: "alert" as Tone },
+    { key: "s2", label: "Segment 2", count: 24, tone: "warn" as Tone },
+    { key: "s3", label: "Segment 3", count: 30, tone: "info" as Tone },
   ],
   rows: [
-    { who: ADVISORS[2], leads: { all: [238, 2], clusters: [104, 0] }, pipe: { platform: [2, 0, 1], advisor: [0, 0, 0] } },
-    { who: ADVISORS[13], leads: { all: [211, 5], clusters: [88, 3] }, pipe: { platform: [4, 1, 0], advisor: [1, 0, 0] } },
-    { who: ADVISORS[20], leads: { all: [196, 0], clusters: [31, 0] }, pipe: { platform: [7, 6, 0], advisor: [3, 2, 0] } },
+    { who: ADVISORS[2], leads: { all: [238, 2], subset: [104, 0] }, pipe: { srcA: [2, 0, 1], srcB: [0, 0, 0] } },
+    { who: ADVISORS[13], leads: { all: [211, 5], subset: [88, 3] }, pipe: { srcA: [4, 1, 0], srcB: [1, 0, 0] } },
+    { who: ADVISORS[20], leads: { all: [196, 0], subset: [31, 0] }, pipe: { srcA: [7, 6, 0], srcB: [3, 2, 0] } },
   ],
 };
 
 /* ---------- Offre › ACC : l'année du pool, mois par mois ---------- */
 export const POOL_YEAR = {
   months: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"],
-  // entrés en traitement, publiés, transactions (Nov et Déc pas encore écoulés)
+  // trois séries mensuelles (Nov et Déc pas encore écoulés)
   intake: [152, 188, 161, 214, 131, 176, 118, 129, 163, 171, 0, 0],
   listed: [61, 78, 70, 96, 58, 82, 49, 55, 72, 68, 0, 0],
   deals: [9, 12, 10, 14, 8, 13, 7, 9, 11, 10, 0, 0],
 };
+
+/* ---------- Dock : notifications, fil d'actualité, FAQ (tout est fictif) ---------- */
+export const ME: Person = p("me", "Ziad", "Begdouri", "Casablanca");
+
+export type Notif = { id: string; tone: Tone; tag: string; kind: string; who?: Person; text: string; ago: string; unread: boolean };
+export const NOTIFS: Notif[] = [
+  { id: "n1", tone: "alert", tag: "Urgent", kind: "Accès", who: ADVISORS[17], text: "Demande d'accès en attente de validation.", ago: "il y a 4 min", unread: true },
+  { id: "n2", tone: "warn", tag: "À traiter", kind: "Déclarations", who: ADVISORS[6], text: "Nouvelle déclaration à rattacher à un bien.", ago: "il y a 22 min", unread: true },
+  { id: "n3", tone: "ok", tag: "Bonne nouvelle", kind: "Réseau", who: ACCS[2], text: "Trois nouveaux conseillers rejoignent son réseau.", ago: "il y a 1 h", unread: true },
+  { id: "n4", tone: "info", tag: "Info", kind: "Scoring", text: "Scores et rangs recalculés pour 598 conseillers.", ago: "il y a 3 h", unread: false },
+  { id: "n5", tone: "warn", tag: "À traiter", kind: "Publication", who: ADVISORS[9], text: "Un bien attend une seconde vérification.", ago: "hier", unread: false },
+  { id: "n6", tone: "info", tag: "Info", kind: "Formation", text: "Séance de jeudi 14 h : 18 inscrits, lien envoyé.", ago: "hier", unread: false },
+];
+
+export const FEED: { id: string; who: Person; role: string; ago: string; text: string; photo?: string; notes?: string[]; likes: number; comments: number }[] = [
+  { id: "f1", who: ACCS[0], role: "ACC · Casablanca", ago: "il y a 2 h", text: "Bienvenue aux 12 conseillers de la promo d'octobre ! Première visio jeudi à 14 h, le lien arrive par email.", photo: "/catalogue/1.jpg", likes: 24, comments: 6 },
+  { id: "f2", who: ME, role: "Équipe produit", ago: "hier", text: "Nouveautés de la semaine dans Averröes :", notes: ["Transactions : courbe, entonnoir et répartition, mois par mois", "Mode sombre, depuis le dock", "Notifications triées par priorité, à marquer comme lues", "FAQ et signalement de bug sans quitter l'écran"], likes: 31, comments: 9 },
+  { id: "f3", who: ACCS[3], role: "ACC · Marrakech", ago: "lundi", text: "Bravo à Imane Daoudi pour sa première transaction ce mois-ci. Belle façon d'ouvrir la saison !", photo: "/catalogue/3.jpg", likes: 48, comments: 12 },
+];
+
+export const FAQ: { q: string; a: string }[] = [
+  { q: "Comment ouvrir un écran ?", a: "Menu, dans le dock, liste tous les segments. Un écran verrouillé est privé." },
+  { q: "Qui voit quoi ?", a: "Chaque rôle a son préréglage d'accès ; un administrateur peut ouvrir ou fermer un segment pour une personne." },
+  { q: "D'où viennent les chiffres ?", a: "Dans cette vitrine, d'un jeu de données fictif. Aucun nom ni chiffre n'est réel." },
+  { q: "Comment signaler un bug ?", a: "Onglet Bug : la zone concernée et ce qui s'est passé. La réponse arrive dans les notifications." },
+];

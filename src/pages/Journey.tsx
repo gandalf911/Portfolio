@@ -15,7 +15,7 @@ export function Journey() {
                 <p className="t-small journey__first-date">MAR 2024 — PRESENT</p>
                 <div className="journey__first-body">
                   <h5 className="t-h5 journey__text">Business Analyst · Data &amp; Automation (FDE)</h5>
-                  <p className="t-body journey__company">Real-estate proptech · Casablanca</p>
+                  <p className="t-body journey__company journey__org"><img className="journey__logo" src="/images/yakeey-logo.png" alt="Yakeey" /><span>· Real-estate proptech · Casablanca</span></p>
                   <div className="t-body rt journey__text journey__text--88">
                     <p>
                       Part of the operations team (800+ real-estate advisors). I joined as a business analyst and the role

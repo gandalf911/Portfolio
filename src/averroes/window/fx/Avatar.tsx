@@ -9,7 +9,7 @@ export function Avatar({ person, size = 24, dark = false }: { person: Person; si
       title={`${person.first} ${person.last}`}
       style={{
         width: size, height: size, flexShrink: 0, borderRadius: "50%", display: "inline-grid", placeItems: "center",
-        background: dark ? T.sapin : T.infoSoft, color: dark ? T.elevated : T.jadeInk,
+        background: dark ? T.sapin : T.infoSoft, color: dark ? T.cream : T.jadeInk,
         border: `1px solid ${dark ? "rgba(255,255,255,.12)" : "rgba(27,191,160,.25)"}`,
         fontSize: size < 18 ? 7 : Math.round(size * 0.36), fontWeight: 600, letterSpacing: ".02em", lineHeight: 1,
       }}

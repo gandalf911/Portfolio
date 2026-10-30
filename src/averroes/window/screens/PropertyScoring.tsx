@@ -1,23 +1,20 @@
 import { useState } from "react";
-import {
-  Building2, ChevronDown, CircleDashed, Compass, FileSignature, Gauge, Handshake, Info, Layers, MapPin, Map as MapIcon, Sparkles, Target, UsersRound, Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { Building2, ChevronDown, Circle, Diamond, FileSignature, Gauge, Handshake, Info, Layers, Map as MapIcon, MapPin, Sparkles, Square, Triangle, UsersRound, type LucideIcon } from "lucide-react";
 import { PROPERTY_SCORES } from "../data/fiction";
 import { CountUp, formatFr } from "../fx/CountUp";
 import { useArmed } from "../fx/useArmed";
 import { T } from "../theme";
 
-/* Scoring des biens publiés : attractivité (qualité du bien) × priorité
-   (intérêt commercial). Les deux médianes coupent le nuage en quatre. */
+/* Scoring des biens publiés : deux scores croisés, Metric 1 × Metric 2.
+   Les deux médianes coupent le nuage en quatre segments. */
 
-type Quad = "engine" | "blind" | "rework" | "radar";
+type Quad = "a" | "b" | "c" | "d";
 
 const QUADS: Record<Quad, { label: string; text: string; color: string; icon: LucideIcon }> = {
-  engine: { label: "Moteurs", text: "Attractif ET prioritaire : la cible.", color: T.jadeCta, icon: Target },
-  blind: { label: "Angle mort", text: "Attractif mais peu prioritaire : sous-exploité.", color: T.terracotta, icon: Compass },
-  rework: { label: "À retravailler", text: "Prioritaire mais peu attractif : photos, prix.", color: T.rose, icon: Wrench },
-  radar: { label: "Hors radar", text: "Ni l'un ni l'autre : à requalifier.", color: T.jade, icon: CircleDashed },
+  a: { label: "Segment A", text: "Au-dessus des deux médianes.", color: T.jadeCta, icon: Circle },
+  b: { label: "Segment B", text: "Metric 1 haute, Metric 2 basse.", color: T.terracotta, icon: Square },
+  c: { label: "Segment C", text: "Metric 2 haute, Metric 1 basse.", color: T.rose, icon: Triangle },
+  d: { label: "Segment D", text: "Sous les deux médianes.", color: T.jade, icon: Diamond },
 };
 
 const FILTERS: { label: string; icon: LucideIcon }[] = [
@@ -62,28 +59,28 @@ export function PropertyScoring() {
 
       <div className="avw-card" style={{ flexShrink: 0, display: "flex", alignItems: "center", gap: 24, padding: "9px 16px", fontSize: 11.5 }}>
         <Kpi icon={Building2} value={total} label="biens publiés" />
-        <Kpi icon={Target} value={share("engine")} suffix=" %" label="moteurs" color={T.jadeCta} />
-        <Kpi icon={Compass} value={share("blind")} suffix=" %" label="angle mort" color={T.terracotta} />
-        <Kpi icon={Wrench} value={share("rework")} suffix=" %" label="à retravailler" color={T.rose} />
-        <Kpi icon={Sparkles} value={medianX} decimals={1} label="attractivité médiane" />
-        <Kpi icon={Gauge} value={medianY} label="priorité médiane" />
+        <Kpi icon={Circle} value={share("a")} suffix=" %" label="segment A" color={T.jadeCta} />
+        <Kpi icon={Square} value={share("b")} suffix=" %" label="segment B" color={T.terracotta} />
+        <Kpi icon={Triangle} value={share("c")} suffix=" %" label="segment C" color={T.rose} />
+        <Kpi icon={Sparkles} value={medianX} decimals={1} label="Metric 1 médiane" />
+        <Kpi icon={Gauge} value={medianY} label="Metric 2 médiane" />
       </div>
 
       <div className="avw-card" style={{ flex: 1, minHeight: 0, padding: "8px 10px 4px", display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12.5, fontWeight: 600, padding: "2px 6px 0" }}>
-          <Gauge size={14} color={T.jadeCta} aria-hidden /> Scoring des biens : attractivité × priorité <Info size={12} color={T.muted} aria-hidden />
+          <Gauge size={14} color={T.jadeCta} aria-hidden /> Scoring des biens : Metric 1 × Metric 2 <Info size={12} color={T.muted} aria-hidden />
           <span style={{ marginLeft: "auto", fontSize: 10.5, fontWeight: 400, color: T.muted, minHeight: 14 }}>
             {hover ? (
               <>
-                <b style={{ color: T.text }}>{hover.n}</b> biens · attractivité ≈ {formatFr(hover.x, 0)} · priorité {hover.y}
+                <b style={{ color: T.text }}>{hover.n}</b> biens · Metric 1 ≈ {formatFr(hover.x, 0)} · Metric 2 {hover.y}
               </>
             ) : (
-              "En bas à droite : attractif mais peu prioritaire"
+              "Survolez une bulle pour son détail"
             )}
           </span>
         </div>
         <div style={{ position: "relative", flex: 1, minHeight: 0 }}>
-          <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style={{ position: "absolute", inset: 0, display: "block" }} aria-label="Attractivité et priorité des biens publiés" onMouseLeave={() => setHover(null)}>
+          <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style={{ position: "absolute", inset: 0, display: "block" }} aria-label="Metric 1 et Metric 2 des biens publiés" onMouseLeave={() => setHover(null)}>
             {[0, 20, 40, 60, 80].map((g) => (
               <g key={`y${g}`}>
                 <line x1={PAD.l} x2={W - PAD.r} y1={ys(g)} y2={ys(g)} stroke={T.border} strokeDasharray="3 5" />
@@ -96,8 +93,8 @@ export function PropertyScoring() {
                 <text x={xs(g)} y={H - PAD.b + 16} fontSize="10.5" fill={T.muted} textAnchor="middle">{g}</text>
               </g>
             ))}
-            <text x={(PAD.l + W - PAD.r) / 2} y={H - 4} fontSize="11" fill={T.muted} textAnchor="middle">Attractivité · qualité du bien</text>
-            <text x={12} y={(PAD.t + H - PAD.b) / 2} fontSize="11" fill={T.muted} textAnchor="middle" transform={`rotate(-90 12 ${(PAD.t + H - PAD.b) / 2})`}>Priorité · commerciale</text>
+            <text x={(PAD.l + W - PAD.r) / 2} y={H - 4} fontSize="11" fill={T.muted} textAnchor="middle">Metric 1</text>
+            <text x={12} y={(PAD.t + H - PAD.b) / 2} fontSize="11" fill={T.muted} textAnchor="middle" transform={`rotate(-90 12 ${(PAD.t + H - PAD.b) / 2})`}>Metric 2</text>
             <line x1={xs(medianX)} x2={xs(medianX)} y1={PAD.t} y2={H - PAD.b} stroke={T.sapin} strokeOpacity={0.45} strokeDasharray="5 4" />
             <line x1={PAD.l} x2={W - PAD.r} y1={ys(medianY)} y2={ys(medianY)} stroke={T.sapin} strokeOpacity={0.45} strokeDasharray="5 4" />
 

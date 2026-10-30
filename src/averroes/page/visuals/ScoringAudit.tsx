@@ -12,13 +12,13 @@ const FLAWS = [
 ];
 
 export function ScoringAudit() {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const { ref, live } = useInView<HTMLDivElement>();
   const [after, setAfter] = useState(false);
   useEffect(() => {
-    if (!inView || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (!live || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const t = window.setInterval(() => setAfter((v) => !v), 2600);
     return () => window.clearInterval(t);
-  }, [inView]);
+  }, [live]);
   const data = after ? AFTER : BEFORE;
   const max = 96;
   return (
