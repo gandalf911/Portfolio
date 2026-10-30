@@ -2,7 +2,12 @@
 // scrolls inside the browser frame) and the first screen on a phone.
 export type Site = {
   name: string;
+  /** shown in the browser bar */
   url: string;
+  /** where the button goes when the site is not public (default: visit `url`) */
+  link?: { href: string; label: string };
+  /** the "Built" fact (default: Framer) */
+  built?: string;
   sector: string;
   summary: string;
   pages: string[];
@@ -22,5 +27,18 @@ export const SITES: Site[] = [
     sections: ["Hero & key figures", "Services", "Six areas of expertise", "Vision & mission", "Testimonials", "FAQ", "Contact form"],
     desktop: "/web/diag-immo-invest-desktop.jpg",
     phone: "/web/diag-immo-invest-phone.jpg",
+  },
+  {
+    name: "Averröes",
+    url: "https://averroes/",
+    link: { href: "/averroes", label: "Read the case study" },
+    sector: "Internal operations platform · Landing page",
+    summary:
+      "The front door of Averröes, the operations platform I built in-house. An editorial black-and-white page: a 3D robot that follows the cursor behind the title, a manifesto that lights up word by word as you scroll, an endless marquee of the modules in production, six cards that explain the tool without jargon, and testimonials pulled live from the team's feedback.",
+    pages: ["Accueil", "Six module pages"],
+    sections: ["3D hero", "Scroll-lit manifesto", "Modules marquee", "Six-part explainer", "Team testimonials", "Footer"],
+    built: "In Next.js and Tailwind, with a Spline 3D hero, responsive from desktop to phone",
+    desktop: "/web/averroes-desktop.jpg",
+    phone: "/web/averroes-phone.jpg",
   },
 ];

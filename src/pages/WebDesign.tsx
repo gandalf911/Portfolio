@@ -1,4 +1,4 @@
-import { ArrowUpRight, Globe, LayoutTemplate, MousePointer2, Smartphone } from "lucide-react";
+import { ArrowUpRight, BookOpen, Globe, LayoutTemplate, MousePointer2, Smartphone } from "lucide-react";
 import { motion } from "motion/react";
 import { EASE } from "../components/Reveal";
 import { SITES, type Site } from "../webdesign/sites";
@@ -32,7 +32,7 @@ function SiteShowcase({ site, index }: { site: Site; index: number }) {
             <dt>
               <Smartphone size={14} aria-hidden /> Built
             </dt>
-            <dd>In Framer, responsive from desktop to phone</dd>
+            <dd>{site.built ?? "In Framer, responsive from desktop to phone"}</dd>
           </div>
         </dl>
         <ul className="wd-chips">
@@ -40,9 +40,15 @@ function SiteShowcase({ site, index }: { site: Site; index: number }) {
             <li key={s}>{s}</li>
           ))}
         </ul>
-        <a className="wd-visit" href={site.url} target="_blank" rel="noopener">
-          <Globe size={16} aria-hidden /> Visit {host(site.url)} <ArrowUpRight size={16} aria-hidden />
-        </a>
+        {site.link ? (
+          <a className="wd-visit" href={site.link.href}>
+            <BookOpen size={16} aria-hidden /> {site.link.label} <ArrowUpRight size={16} aria-hidden />
+          </a>
+        ) : (
+          <a className="wd-visit" href={site.url} target="_blank" rel="noopener">
+            <Globe size={16} aria-hidden /> Visit {host(site.url)} <ArrowUpRight size={16} aria-hidden />
+          </a>
+        )}
       </div>
 
       <div className="wd-devices">
@@ -91,14 +97,14 @@ export function WebDesign() {
             Web Design
           </motion.h1>
           <motion.p className="wd-lede" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: EASE }}>
-            Websites for businesses, from the first layout to the live domain. Every one below is online: scroll through it here, then visit it.
+            Websites for businesses, from the first layout to the live domain. Scroll through each one here, then visit it.
           </motion.p>
         </section>
       </div>
 
       <div className="wd-list">
         {SITES.map((s, i) => (
-          <SiteShowcase key={s.url} site={s} index={i} />
+          <SiteShowcase key={s.name} site={s} index={i} />
         ))}
       </div>
     </div>
