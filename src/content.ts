@@ -47,7 +47,12 @@ export const PROJECTS: Project[] = [
     image: "/images/project-apps.png",
     position: "54.9% 94.9%",
   },
-  { title: "Data Synchronization Workflows", href: CASE_STUDY, image: "/images/project-sync.png" },
+  {
+    title: "Data Visualization",
+    description: "Drill-down pies, a draggable Sankey, tables that open up and a 3D referral galaxy, live on demo data.",
+    href: "/data-viz",
+    image: "/images/project-sync.png",
+  },
 ];
 
 export const ABOUT = {
