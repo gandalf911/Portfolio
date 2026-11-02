@@ -97,6 +97,8 @@
 @keyframes ap-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 .ap-stage { position: relative; padding: 0 70px 60px 0; }
+/* an app with no phone screen (a desktop tool) takes the whole stage */
+.ap-stage--wide { padding: 0; }
 .ap-screen {
   position: relative; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden; background: #14211f;
   border: 1px solid rgba(255, 255, 255, 0.1);
