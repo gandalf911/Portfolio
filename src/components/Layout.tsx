@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Footer } from "./Footer";
 import { Navigation } from "./Navigation";
 import "./Layout.css";
@@ -18,6 +19,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <Footer />
       </div>
       <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
