@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { Footer } from "./Footer";
 import { Navigation } from "./Navigation";
 import "./Layout.css";
@@ -16,6 +17,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <div className="layout__footer">
         <Footer />
       </div>
+      <Analytics />
     </div>
   );
 }
