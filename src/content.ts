@@ -23,7 +23,7 @@ export type Project = { title: string; image: string; href: string; position?: s
 // Cards without their own page yet open the Averröes case study.
 const CASE_STUDY = "/averroes";
 
-// Slideshow order, as on the site (card 6 sits before card 5).
+// Slideshow order.
 export const PROJECTS: Project[] = [
   { title: "Onboarding & Offboarding systems", href: "/onboarding", image: "/images/project-onboarding.jpg" },
   {
@@ -39,10 +39,9 @@ export const PROJECTS: Project[] = [
     href: "/web-design",
     image: "/images/project-clusters.png",
   },
-  { title: "Customer Complaint Process", href: CASE_STUDY, image: "/images/project-complaints.png" },
   {
     title: "Apps & Web App Development",
-    description: "An onboarding portal with LLM-based OCR, the advisors\u2019 daily workspace and a commission simulator.",
+    description: "An onboarding portal with LLM-based OCR, the advisors\u2019 daily workspace, a commission simulator and a 3D graft planner.",
     href: "/apps",
     image: "/images/project-apps.png",
     position: "54.9% 94.9%",
