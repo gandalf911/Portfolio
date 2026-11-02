@@ -41,7 +41,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "Apps & Web App Development",
-    description: "An onboarding portal with LLM-based OCR, the advisors\u2019 daily workspace, a commission simulator and a 3D graft planner.",
+    description: "An onboarding portal with LLM-based OCR, the advisors\u2019 daily workspace and a commission simulator.",
     href: "/apps",
     image: "/images/project-apps.png",
     position: "54.9% 94.9%",

@@ -1,5 +1,5 @@
 // The apps on /apps. Screens in /public/apps, captured on demo data (1280 × 800), plus the
-// first screen on a phone when the app has a phone layout. Each app is walked through screen by screen.
+// first screen on a phone. Each app is walked through screen by screen.
 export type Screen = { src: string; title: string; caption: string };
 export type Feature = { icon: string; title: string; text: string };
 export type App = {
@@ -10,8 +10,7 @@ export type App = {
   users: string;
   stack: string[];
   screens: Screen[];
-  /** the first screen on a phone; desktop-only tools have none */
-  phone?: string;
+  phone: string;
   /** a grid of what the app holds, under this title */
   features?: { title: string; items: Feature[] };
 };
@@ -83,31 +82,6 @@ export const APPS: App[] = [
       { icon: "Handshake", title: "Business introducer", text: "Their share, side by side" },
       { icon: "Store", title: "Business sales", text: "Goodwill priced on price plus rent" },
       { icon: "PieChart", title: "Visual split", text: "Company, network, advisor, introducer" },
-    ] },
-  },
-  {
-    id: "clinic",
-    name: "Graft Planner",
-    sector: "Hair transplant clinic · Patient assessment & PDF file",
-    summary:
-      "Before a hair transplant, the doctor assesses the patient and hands over a file: the diagnosis, the graft plan, and the care before and after the procedure. This tool does it in one screen. The doctor fills in the assessment on the left and clicks the zones to graft directly on a 3D head in the middle, which turns to show each one. A live summary builds up on the right, and one click generates a branded six-page PDF for the patient, in French, English or Arabic.",
-    users: "The clinic's doctors, for every patient",
-    stack: ["React", "Vite", "TypeScript", "Three.js", "React Three Fiber", "react-pdf", "Zustand", "i18next"],
-    screens: [
-      { src: "/apps/clinic-1.jpg", title: "Assessment", caption: "Patient, health, scalp and hair quality on the left; the zones to graft light up on the 3D head." },
-      { src: "/apps/clinic-2.jpg", title: "Zones on a 3D head", caption: "Click a zone on the head or tick it in the list: the head turns to it and the summary updates." },
-      { src: "/apps/clinic-3.jpg", title: "Three languages", caption: "French, English or Arabic, with the whole layout mirrored right to left in Arabic." },
-      { src: "/apps/clinic-4.jpg", title: "The patient's file", caption: "A six-page PDF built in the browser: cover with the 3D view, diagnosis, day of the procedure, aftercare." },
-    ],
-    features: { title: "What it handles", items: [
-      { icon: "Box", title: "3D head", text: "Clickable graft zones, shader-highlighted" },
-      { icon: "Stethoscope", title: "Full assessment", text: "Health, scalp, hair, technique, grafts" },
-      { icon: "FileText", title: "PDF in the browser", text: "Six branded pages, nothing uploaded" },
-      { icon: "Camera", title: "3D on the cover", text: "The doctor's view, photographed into the file" },
-      { icon: "Languages", title: "FR, EN, AR", text: "Arabic laid out right to left" },
-      { icon: "History", title: "Session recovery", text: "Reopen the last patient after a reload" },
-      { icon: "ListChecks", title: "Checks before export", text: "Name, date and at least one zone" },
-      { icon: "CalendarCheck", title: "Aftercare plan", text: "Pre-op, day of, recovery, follow-up" },
     ] },
   },
 ];

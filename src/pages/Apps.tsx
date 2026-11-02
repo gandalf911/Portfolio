@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  Archive, ArrowLeftRight, Box, Bug, Building2, CalendarCheck, Camera, Contact, FileSignature, FileText, Gamepad2, Gift,
-  Handshake, History, KeyRound, Languages, Layers, ListChecks, Orbit, Percent, PieChart, ScanText, Search, Split,
-  Stethoscope, Store, Upload, UserCheck, Users, Workflow, type LucideIcon,
+  Archive, ArrowLeftRight, Bug, Building2, CalendarCheck, Contact, FileSignature, FileText, Gamepad2, Gift, Handshake,
+  KeyRound, Layers, Orbit, Percent, PieChart, ScanText, Search, Split, Store, Upload, UserCheck, Users, Workflow,
+  type LucideIcon,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { EASE } from "../components/Reveal";
@@ -10,9 +10,8 @@ import { APPS, PORTAL_OUTPUTS, PORTAL_PIPELINE, type App, type Feature } from ".
 import "./Apps.css";
 
 const ICONS: Record<string, LucideIcon> = {
-  Archive, ArrowLeftRight, Box, Bug, Building2, CalendarCheck, Camera, Contact, FileSignature, FileText, Gamepad2, Gift,
-  Handshake, History, KeyRound, Languages, ListChecks, Orbit, Percent, PieChart, ScanText, Search, Split, Stethoscope,
-  Store, Upload, UserCheck, Workflow,
+  Archive, ArrowLeftRight, Bug, Building2, CalendarCheck, Contact, FileSignature, FileText, Gamepad2, Gift, Handshake,
+  KeyRound, Orbit, Percent, PieChart, ScanText, Search, Split, Store, Upload, UserCheck, Workflow,
 };
 
 const STEP_MS = 5000;
@@ -53,17 +52,15 @@ function Walkthrough({ app }: { app: App }) {
         ))}
       </ol>
 
-      <div className={app.phone ? "ap-stage" : "ap-stage ap-stage--wide"}>
+      <div className="ap-stage">
         <div className="ap-screen">
           {app.screens.map((s, i) => (
             <img key={s.src} src={s.src} alt={`${app.name}: ${s.title}`} className={i === active ? "is-active" : undefined} loading="lazy" draggable={false} />
           ))}
         </div>
-        {app.phone && (
-          <div className="ap-phone">
-            <img src={app.phone} alt={`${app.name} on a phone`} loading="lazy" draggable={false} />
-          </div>
-        )}
+        <div className="ap-phone">
+          <img src={app.phone} alt={`${app.name} on a phone`} loading="lazy" draggable={false} />
+        </div>
       </div>
     </div>
   );
@@ -180,7 +177,7 @@ export function Apps() {
             Apps & Web Apps
           </motion.h1>
           <motion.p className="ap-lede" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: EASE }}>
-            Internal tools and client apps, from the first screen to the server and the workflows behind them. Each one is walked through below, screen by screen, on demo data.
+            Internal apps, from the first screen to the server and the workflows behind them. Each one is walked through below, screen by screen, on demo data.
           </motion.p>
           <motion.nav className="ap-jump" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.7, ease: EASE }}>
             {APPS.map((a, i) => (
