@@ -150,6 +150,39 @@ function useMedia(query: string) {
   return match;
 }
 
+/**
+ * The running man behind the wheel: a silent loop, playing only while the pinned stepper is on
+ * screen. Reduced motion keeps the poster still.
+ */
+function RunningMan() {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || reducedMotion()) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) v.play().catch(() => {});
+      else v.pause();
+    });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <video
+      ref={ref}
+      className="jstep__runner"
+      poster="/images/running-man-poster.jpg"
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-hidden
+    >
+      <source src="/videos/running-man.webm" type="video/webm" />
+      <source src="/videos/running-man.mp4" type="video/mp4" />
+    </video>
+  );
+}
+
 /* ---------- the wheel ---------- */
 
 // Geometry taken from the stepper: labels 122 px apart, a raised-cosine bump 48 px deep
@@ -308,6 +341,7 @@ function Stepper() {
   return (
     <div ref={ref} className="jstep" style={{ height: `${n * 45 + 100}vh` }}>
       <div className="jstep__sticky">
+        <RunningMan />
         <div className="jstep__stage">
           <div className="jstep__wheel" style={{ height: H }}>
             <svg className="jstep__line" width={LINE_X + 4} height={H} viewBox={`0 0 ${LINE_X + 4} ${H}`} aria-hidden>

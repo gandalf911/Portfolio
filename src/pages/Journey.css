@@ -104,6 +104,21 @@
   -webkit-mask-image: radial-gradient(75% 70% at 50% 50%, #000 40%, transparent 100%);
   mask-image: radial-gradient(75% 70% at 50% 50%, #000 40%, transparent 100%);
 }
+/* the running man, centred on the warm glow behind the wheel, its edges dissolved into the page */
+.jstep__runner {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  width: min(58vh, 520px);
+  aspect-ratio: 1170 / 1136;
+  translate: -50% -50%;
+  object-fit: cover;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+}
 .jstep__stage {
   position: relative;
   display: grid;
