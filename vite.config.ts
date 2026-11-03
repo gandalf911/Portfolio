@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { defineConfig, type Connect, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 // Vite only serves <page>/index.html at "/<page>/"; without the slash it falls back to the
 // home page. Rewrite the clean URL (the one the site links to) in dev and preview.
@@ -21,7 +22,7 @@ const cleanUrls: Plugin = {
 
 // Static pages: /, /averroes, /onboarding, /web-design, /apps, /data-viz and the 404 page.
 export default defineConfig({
-  plugins: [cleanUrls, react()],
+  plugins: [cleanUrls, react(), tailwindcss()],
   build: {
     rollupOptions: {
       input: {

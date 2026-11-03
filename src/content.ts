@@ -7,14 +7,14 @@ export const NAV_LINKS = [
   { label: "About", href: "/#about" },
   { label: "Skills", href: "/#services" },
   { label: "Faq", href: "/#faq-s" },
-  { label: "Highlights", href: "/#testimonials" },
+  { label: "Certifications", href: "/#certifications" },
 ];
 
 export const HERO = {
   role: "Business Analyst & Automation Engineer · Casablanca",
   title: "I turn manual operations into systems that run themselves.",
   text: "I'm Ziad. I map how the work really flows, then build the CRMs, data pipelines and n8n workflows that carry it, so teams stop copying data between tools.",
-  // the same figures as the About and Highlights sections
+  // the same figures as the About section
   proof: ["30+ workflows in production", "8 systems unified", "3 years in ops & data"],
 };
 
@@ -71,34 +71,31 @@ export type Service = { id?: string; title: string; text: string; phoneText?: st
 
 export const SERVICES: Service[] = [
   {
-    title: "Complex Automation Systems",
-    text: "End-to-end automation engines built on self-hosted n8n, unifying CRMs (HubSpot), LMS (Thinkific), payments, document storage (AWS S3) and messaging (Whatsapp) into a single autonomous lifecycle. I created then migrated  and improved 13+ legacy Zapier flows to n8n with zero manual residuals, covering everything from agent onboarding to offboarding, complaint handling, and inter-system data sync.",
+    title: "Automation Systems",
+    text: "End-to-end automation on self-hosted n8n: 30+ workflows that carry an advisor from sign-up to offboarding across HubSpot, Thinkific, PandaDoc, Zoom, WhatsApp and S3. Legacy Zapier and Apps Script flows migrated with nothing left to do by hand, retries and alerts on every failure path, and 160+ hours of manual work saved every week.",
     image: "/images/service-automation.png",
-    alt: "Graphic design",
+    alt: "A person in a red hoodie working at a computer",
   },
   {
     id: "second",
     title: "Data Models & Dashboards",
-    text: "High-fidelity data layers |modeling raw data with DBT across HubSpot, Postgres, and Mongo, then surfacing it through 3-level dashboards and proprietary scoring algorithms. From GMV clusters to consultant performance, I turn noisy operational data into real-time decision tools with strict verification checks.",
-    // The phone layout of this card still shows the template's placeholder text.
-    phoneText:
-      "Web design is the art and science of creating visually appealing and functional websites that provide seamless user experiences. By blending aesthetics, usability, and cutting-edge technology, web design shapes how individuals interact with digital spaces. It encompasses layout design, typography, color schemes, and responsive frameworks, ensuring websites look and perform flawlessly across devices. Whether for businesses, personal portfolios, or e-commerce platforms",
-    image: "/images/service-data.png",
-    alt: "A man with long hair is working on a computer.",
+    text: "dbt models for reporting and advisor scoring, a warehouse replicated into a live Postgres mirror, and dashboards people actually open: drill-down charts, cohort tables that show who is behind every number, a draggable Sankey of the whole pipeline. I audit the models too, and rebuilt a scoring model whose missing data was quietly being scored as failure.",
+    image: "/images/service-data.jpg",
+    alt: "A silhouette in front of a wall of red light points",
   },
   {
     id: "third",
     title: "Operational Processes",
-    text: "Designing and rolling out the actual operating model behind the systems. Onboarding, scoring, offboarding, complaint handling, neighborhood-cluster dispatching across Moroccan regions. I write the playbooks, define the KPIs, and then automate the steps so process and tooling stay in lock-step as the team scales.",
-    image: "/images/service-processes.png",
-    alt: "Abstract illustration of a network of connected icons",
+    text: "The operating model behind the systems: onboarding with an express track, retention over the first 45 days, offboarding, claims, and neighbourhood clusters across Moroccan cities. I write the playbooks, set the KPIs and the back-office SLAs, then automate the steps, so the process enforces itself as the team grows.",
+    image: "/images/service-processes.jpg",
+    alt: "A person working at a computer in red light",
   },
   {
     id: "forth",
     title: "Web & App Solutions",
-    text: "Internal portals and ops apps that turn complex back-office work into intuitive, low-latency control panels. Recent example: a production OCR-driven document portal that automates intake, validation, and routing for the agent network. Built with a focus on real users in the field, not just dashboards for management.",
-    image: "/images/service-web.jpg",
-    alt: "Abstract dark blue and brown waves",
+    text: "Full-stack apps, built and run end to end. Averr\u00f6es, the CRM a 45-person operations team works in (Next.js, PostgreSQL, Redis, Kubernetes, SSO, role-based access); an advisor portal; a sign-up portal that reads documents with an LLM; a commission simulator; and websites for clients.",
+    image: "/images/service-web.png",
+    alt: "A person in a red beanie working on a laptop",
   },
 ];
 
@@ -131,39 +128,41 @@ export const STACK: StackItem[] = [
   { name: "Framer" },
 ];
 
-export const ACHIEVEMENTS = [
-  { value: "30+", title: "Workflows engineered", text: "Migrated the consultant lifecycle from Zapier to self-hosted n8n - zero manual residuals." },
-  { value: "OCR", title: "Portal in production", text: "A live document portal that automates document intake and validation across the agent network." },
-  { value: "99.9%", title: "Operational uptime", text: "AI-monitored Slack incident alerts catch anomalies before they reach end users." },
-  { value: "8+", title: "Systems unified", text: "HubSpot, Divalto, Thinkific, Zoho, Wati and Postgres synchronized in real time via n8n and DBT." },
-  { value: "100%", title: "Data accuracy", text: "Strict verification checks across 3-level transaction dashboards and scoring systems." },
-  {
-    value: "Multi-region",
-    title: "Ops framework",
-    text: "Modular admin interfaces dispatch and support agents across clusters in Casablanca, Rabat and Marrakech.",
-  },
+// From LinkedIn, Licenses & certifications, current ones only (TOEFL and TOEIC have expired).
+// Each card shows the issuer's logo; the caption reads beside the opened card.
+export const CERTIFICATIONS = [
+  { id: "n8n-101", image: "/certs/n8n-101.svg?v=2", alt: "n8n 101", caption: "n8n101 · Essentials: Your First Workflows · n8n, Oct 2026 · ID 22782109" },
+  { id: "n8n-102", image: "/certs/n8n-102.svg?v=2", alt: "n8n 102", caption: "n8n102 · Integrations: APIs and Connected Workflows · n8n, Oct 2026 · ID 22803196" },
+  { id: "n8n-103", image: "/certs/n8n-103.svg?v=2", alt: "n8n 103", caption: "n8n103 · In Practice: AI, Testing and Best Practices · n8n, Oct 2026 · ID 22820325" },
+  { id: "coursera", image: "/certs/coursera.svg?v=2", alt: "Coursera", caption: "Automating Sales Tasks with Zapier · Coursera Project Network, Aug 2025" },
+  { id: "cfi", image: "/certs/cfi.svg?v=2", alt: "Corporate Finance Institute", caption: "Accounting Fundamentals · Corporate Finance Institute, Feb 2023 · ID 67264371" },
+  { id: "bloomberg", image: "/certs/bloomberg.svg?v=2", alt: "Bloomberg", caption: "Bloomberg Market Concepts · Bloomberg, Jan 2022" },
 ];
 
 export const FAQS = [
   {
     q: "What exactly do you do?",
-    a: "I sit at the intersection of business operations and Data & Product. I diagnose process bottlenecks, design automation systems, and ship the integrations that make them run | from CRM and LMS pipelines to dashboards, scoring algorithms, and incident response.",
+    a: "I work as an internal Forward Deployed Engineer: I learn how the business actually runs, alongside the teams, then design, build, deploy and run the tools it runs on. At Yakeey that means Averr\u00f6es, the platform the whole operations team works in, and the automations and data models underneath it.",
   },
   {
     q: "What's your stack?",
-    a: "n8n | HubSpot | Google AppScript | JavaScript | HTML | Zendesk |Google Workspace at an advanced level |plus the BI & reporting layer (Sheets, dashboards, OCR). I also work with Wati, SMTP, Thinkific, Zoho, and Slack for end-to-end pipelines.",
+    a: "Apps: Next.js, React, TypeScript and Node.js. Data: PostgreSQL, dbt, SQL, Redis and Metabase. Automation: n8n (30+ workflows, migrated from Zapier and Apps Script), HubSpot, Thinkific, Zoom, Wati and PandaDoc. Infrastructure: Docker, Kubernetes, S3, GitHub and GitLab. And Claude, every day.",
+  },
+  {
+    q: "Can you take a project from idea to production on your own?",
+    a: "Yes. Averr\u00f6es was scoped, designed, built, deployed and is run by me alone: 45 users, 8 data sources consolidated, 30+ screens, role-based access, an audit log and SSO. Inside a team, I am the bridge between product, DevOps, operations and engineering.",
   },
   {
     q: "How do you approach a new system?",
-    a: "I start by mapping the current workflow end-to-end, find where the data and decisions break, and prototype the smallest piece that proves the whole flow. Then I scale it |with verification checks, monitoring, and clear ownership | before retiring whatever it replaces.",
+    a: "I map the current workflow end to end with the people who run it, find where the data and the decisions break, and build the smallest piece that proves the whole flow. Then I scale it, with verification checks, monitoring and clear ownership, before retiring whatever it replaces.",
   },
   {
     q: "Where are you based and what languages do you work in?",
-    a: "Casablanca, Morocco. I work fluently in English, French, and Arabic | comfortable across European, MENA, and remote-first teams.",
+    a: "Casablanca, Morocco. I work fluently in English, French and Arabic, and I am comfortable across European, MENA and remote-first teams.",
   },
   {
     q: "Are you open to new opportunities?",
-    a: "Yes, actively interested in operations engineering, automation, and data-infrastructure roles. The fastest way to reach me is begdouriziad@gmail.com or LinkedIn.",
+    a: "Yes, I am actively interested in solutions engineering, automation and data-infrastructure roles. The fastest way to reach me is begdouriziad@gmail.com or LinkedIn.",
   },
 ];
 

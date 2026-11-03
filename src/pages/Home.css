@@ -21,6 +21,8 @@
   height: 100%;
   object-fit: contain;
   filter: blur(48px);
+  /* own compositor layer: the blur is drawn once and only moved while the page scrolls */
+  transform: translateZ(0);
 }
 .shade__particles {
   position: absolute;
@@ -191,6 +193,14 @@
   /* soft and below only: a spread shadow poked out above the top edge and was cut square at
      the container edge, so the top-right corner looked unrounded */
   box-shadow: 0 28px 60px -18px rgba(0, 0, 0, 0.6);
+}
+/* desktop: up a little, so the portrait sits centred between the nav and the fold on a laptop
+   screen instead of running past the bottom edge (translate, not transform: the wrapper's
+   entrance animation owns transform) */
+@media (min-width: 1200px) {
+  .hero__image {
+    translate: 0 -40px;
+  }
 }
 .hero__image img {
   position: absolute;
@@ -499,6 +509,42 @@
   width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+/* ---------- Certifications: the flip-card stack (src/components/ui/gsap-card-flip) ---------- */
+.certs__stage {
+  position: relative;
+  width: 100%;
+  font-family: var(--sans);
+}
+/* the component sets no type of its own: the site's serif for its heading */
+.certs__stage h2 {
+  font-family: var(--serif);
+}
+/* no light backing behind the cards: it showed as a grey contour around the dark logos */
+.certs__stage .hxs-gsap-flip-card button,
+.certs__stage .hxs-gsap-flip-card div:has(> img) {
+  background: transparent;
+  box-shadow: none;
+}
+.certs__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  z-index: 50;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  font: 400 12px/1.4 var(--sans);
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  pointer-events: none;
+}
+@media (max-width: 809.98px) {
+  .certs__hint { display: none; }
 }
 
 /* ---------- Tablet ---------- */

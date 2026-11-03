@@ -1,0 +1,6 @@
+/* Tailwind v4 for the vendored components in src/components/ui only: the theme variables and
+   the utilities, without preflight (it would reset the whole site), scanned from that folder alone
+   so no other class name in the site can turn into a utility. */
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities" source(none);
+@source "../components/ui";

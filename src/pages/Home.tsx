@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { pick, useBreakpoint } from "../lib/breakpoint";
-import { ABOUT, ACHIEVEMENTS, EMAIL, FAQS, HERO, PROJECTS, SERVICES, STACK, STATS } from "../content";
+import { ABOUT, CERTIFICATIONS, EMAIL, FAQS, HERO, PROJECTS, SERVICES, STACK, STATS } from "../content";
 import { ButtonPrimary, ButtonSecondary } from "../components/buttons";
 import { FaqList } from "../components/Faq";
 import { Particles } from "../components/Particles";
@@ -8,11 +8,11 @@ import { ProgressBox } from "../components/ProgressBox";
 import { FlowGallery } from "../components/FlowGallery";
 import { EASE, LINEAR } from "../components/Reveal";
 import { ServiceStack } from "../components/ServiceStack";
-import { SmoothScroll } from "../components/SmoothScroll";
 import { StackLogos } from "../components/StackLogos";
 import { TextReveal } from "../components/TextReveal";
 import { WordAppear } from "../components/WordAppear";
 import { Journey } from "./Journey";
+import GsapFlipCard from "../components/ui/gsap-card-flip";
 import "./Home.css";
 
 /** A glow picture with its star dust, appearing once in view (sections below the hero). */
@@ -62,7 +62,6 @@ export function Home() {
 
   return (
     <div className="home">
-      <SmoothScroll intensity={10} />
 
       {/* ---------- Hero ---------- */}
       <section className="hero">
@@ -271,30 +270,35 @@ export function Home() {
       {/* ---------- My Journey ---------- */}
       <Journey />
 
+      {/* ---------- Certifications ---------- */}
+      <section className="achievements certs" id="certifications">
+        <div className="achievements__container">
+          <div className="achievements__content">
+            <h2 className="t-h2 achievements__title">Certifications</h2>
+            <div className="certs__stage">
+              <GsapFlipCard
+                items={CERTIFICATIONS}
+                title="Six credentials"
+                meta="n8n · Coursera · CFI · Bloomberg"
+                description="From the n8n automation track to finance and markets. Pick a card to bring it forward."
+                backgroundColor="#0b0b0b"
+                textColor="#ffffff"
+                mutedColor="rgba(255, 255, 255, 0.5)"
+                rounded={16}
+                stackRotation={2}
+              />
+              <p className="certs__hint">Click the stack to spread it out, then any card to bring it forward</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ---------- FAQ ---------- */}
       <section className="faq" id="faq-s">
         <div className="faq__container">
           <div className="faq__content">
             <h2 className="t-h2 faq__title">Frequently Asked Questions</h2>
             <FaqList items={FAQS} phone={phone} />
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- Achievements ---------- */}
-      <section className="achievements" id="testimonials">
-        <div className="achievements__container">
-          <div className="achievements__content">
-            <h2 className="t-h2 achievements__title"> Latest Achievements &amp; Milestones</h2>
-            <div className="achievements__grid">
-              {ACHIEVEMENTS.map((a) => (
-                <div key={a.title} className="achievement bordered">
-                  <h3 className="t-h3 achievement__text">{a.value}</h3>
-                  <h5 className="t-h5 ta-center achievement__text">{a.title}</h5>
-                  <p className="t-body ta-center achievement__text">{a.text}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
