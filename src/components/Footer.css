@@ -68,6 +68,8 @@
   height: 100%;
   object-fit: contain;
   filter: blur(48px);
+  /* own compositor layer: the blur is drawn once and only moved while the page scrolls */
+  transform: translateZ(0);
 }
 
 .footer__top {

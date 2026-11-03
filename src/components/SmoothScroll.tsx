@@ -9,12 +9,17 @@ export function getLenis() {
 }
 
 /**
- * Framer's "Smooth Scroll" component (intensity 10): Lenis with a 1 s duration-based
- * easing, plus same-page anchor links routed through Lenis and their scroll-margin-top.
+ * Smooth scroll for every page (mounted once in Layout). Lenis in lerp mode: each frame the page
+ * closes a fixed share of the distance to where the wheel or trackpad is heading, so the motion
+ * is one continuous glide. The previous duration mode restarted a 1 s ease on every wheel tick,
+ * which read as stiff steps. Nested scroll areas (drawers, lists) keep their own scroll, and
+ * anything marked data-lenis-prevent-wheel (the 3D galaxy's zoom) keeps the wheel.
+ * Same-page anchor links are routed through Lenis with their scroll-margin-top.
  */
-export function SmoothScroll({ intensity = 10 }: { intensity?: number }) {
+export function SmoothScroll() {
   useEffect(() => {
-    const lenis = new Lenis({ duration: (intensity || 10) / 10, lerp: 0 });
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 1, allowNestedScroll: true });
     instance = lenis;
     let raf = requestAnimationFrame(function loop(t) {
       lenis.raf(t);
@@ -47,7 +52,7 @@ export function SmoothScroll({ intensity = 10 }: { intensity?: number }) {
       lenis.destroy();
       instance = null;
     };
-  }, [intensity]);
+  }, []);
 
   return null;
 }

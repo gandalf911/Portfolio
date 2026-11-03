@@ -306,7 +306,13 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
     const depth = () => Math.min(300, W * 0.2);
 
     let raf = 0;
+    let onScreen = true;
     const tick = (t: number) => {
+      // off screen, the WebGL loop stops entirely so it never competes with the page scroll
+      if (!onScreen) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(tick);
       const dt = Math.min(0.05, (t - last) / 1000 || 0.016);
       last = t;
@@ -330,12 +336,22 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
     };
     raf = requestAnimationFrame(tick);
 
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      if (onScreen && !raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
+    });
+    io.observe(el);
+
     const ro = new ResizeObserver(layout);
     ro.observe(el);
 
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
+      io.disconnect();
       ro.disconnect();
       el.removeEventListener("pointerdown", onDown);
       el.removeEventListener("pointermove", onMove);

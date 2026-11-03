@@ -3,7 +3,6 @@ import { pick, useBreakpoint } from "../lib/breakpoint";
 import { ButtonPrimary } from "../components/buttons";
 import { Particles } from "../components/Particles";
 import { EASE, Reveal } from "../components/Reveal";
-import { SmoothScroll } from "../components/SmoothScroll";
 import "./Home.css";
 import "./NotFound.css";
 
@@ -13,7 +12,6 @@ export function NotFound() {
 
   return (
     <div className="not-found">
-      <SmoothScroll intensity={10} />
       <div className="not-found__hero">
         <motion.div
           className="shade not-found__shade"

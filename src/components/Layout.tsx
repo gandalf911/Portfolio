@@ -3,12 +3,14 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Footer } from "./Footer";
 import { Navigation } from "./Navigation";
+import { SmoothScroll } from "./SmoothScroll";
 import "./Layout.css";
 
 /** Framer layout template "Main", shared by every page: header on top, footer at the end. */
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="layout">
+      <SmoothScroll />
       <header className="layout__header">
         <div className="layout__nav">
           <Navigation />

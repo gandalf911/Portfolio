@@ -461,7 +461,7 @@ export function MlmGalaxy() {
   const focusNode = filter.kind === "lineage" && filter.id !== biggest.i ? nodes[filter.id] : null;
 
   return (
-    <div className="dvgx" ref={hostRef}>
+    <div className="dvgx" ref={hostRef} data-lenis-prevent-wheel>
       <style>{CSS}</style>
 
       <div className="dvgx-glass dvgx-card">
