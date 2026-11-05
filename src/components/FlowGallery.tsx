@@ -232,7 +232,13 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
     let pointer: { x: number; y: number } | null = null;
     let idle = 0;
 
+    // a touch tap sends no pointermove before it lands: the position must come from the event itself
+    const track = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      pointer = { x: e.clientX - r.left, y: e.clientY - r.top };
+    };
     const onDown = (e: PointerEvent) => {
+      track(e);
       dragging = true;
       dragX = e.clientX;
       dragStart = target;
@@ -240,23 +246,32 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
       el.setPointerCapture(e.pointerId);
     };
     const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      pointer = { x: e.clientX - r.left, y: e.clientY - r.top };
+      track(e);
       if (!dragging) return;
       const dx = e.clientX - dragX;
       moved = Math.max(moved, Math.abs(dx));
       target = dragStart - dx * 1.4;
       idle = 0;
     };
-    const onUp = (e: PointerEvent) => {
+    const release = (e: PointerEvent) => {
       dragging = false;
       if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    };
+    // a vertical swipe hands the gesture to the page (touch-action: pan-y) and ends in a cancel: never a click
+    const onCancel = (e: PointerEvent) => {
+      release(e);
+      if (e.pointerType !== "mouse") pointer = null;
+    };
+    const onUp = (e: PointerEvent) => {
+      track(e);
+      release(e);
       if (moved < 6) {
         const c = hovered();
         // an outside site opens in a new tab, the portfolio's own pages in place
         if (c && /^https?:/.test(c.href)) window.open(c.href, "_blank", "noopener");
         else if (c) window.location.href = c.href;
       }
+      if (e.pointerType !== "mouse") pointer = null; // no hover state left behind on touch
     };
     const onLeave = () => {
       pointer = null;
@@ -270,7 +285,7 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
     el.addEventListener("pointerdown", onDown);
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerup", onUp);
-    el.addEventListener("pointercancel", onUp);
+    el.addEventListener("pointercancel", onCancel);
     el.addEventListener("pointerleave", onLeave);
     el.addEventListener("wheel", onWheel, { passive: false });
 
@@ -356,7 +371,7 @@ export function FlowGallery({ projects }: { projects: Project[] }) {
       el.removeEventListener("pointerdown", onDown);
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerup", onUp);
-      el.removeEventListener("pointercancel", onUp);
+      el.removeEventListener("pointercancel", onCancel);
       el.removeEventListener("pointerleave", onLeave);
       el.removeEventListener("wheel", onWheel);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
