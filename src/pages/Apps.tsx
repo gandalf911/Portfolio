@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Archive, ArrowLeftRight, Bug, Building2, CalendarCheck, Contact, FileSignature, FileText, Gamepad2, Gift, Handshake,
   KeyRound, Layers, Orbit, Percent, PieChart, ScanText, Search, Split, Store, Upload, UserCheck, Users, Workflow,
@@ -25,6 +25,17 @@ function Walkthrough({ app }: { app: App }) {
   const [paused, setPaused] = useState(false);
   const auto = !paused && !reducedMotion();
 
+  // Tablet and phone lay the steps in a swipeable row: keep the active one in view
+  // (the row scrolls on its own, never the page).
+  const strip = useRef<HTMLOListElement>(null);
+  useEffect(() => {
+    const ol = strip.current;
+    const li = ol?.children[active] as HTMLElement | undefined;
+    if (!ol || !li || ol.scrollWidth <= ol.clientWidth) return;
+    const left = li.offsetLeft - ol.offsetLeft - (ol.clientWidth - li.offsetWidth) / 2;
+    ol.scrollTo({ left: Math.max(0, left), behavior: reducedMotion() ? "auto" : "smooth" });
+  }, [active]);
+
   useEffect(() => {
     if (!auto) return;
     const id = window.setTimeout(() => setActive((i) => (i + 1) % app.screens.length), STEP_MS);
@@ -33,7 +44,7 @@ function Walkthrough({ app }: { app: App }) {
 
   return (
     <div className="ap-walk" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-      <ol className="ap-steps">
+      <ol ref={strip} className="ap-steps">
         {app.screens.map((s, i) => (
           <li key={s.src}>
             <button type="button" className={i === active ? "is-active" : undefined} onClick={() => setActive(i)} aria-current={i === active}>

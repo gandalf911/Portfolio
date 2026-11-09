@@ -29,7 +29,7 @@ export function AverroesWindow({ initial = "onboarding" }: { initial?: ScreenId 
   const [dark, setDark] = useState(false);
   const [notifs, setNotifs] = useState(NOTIFS);
   const timer = useRef<number | undefined>(undefined);
-  const { ref, scale } = useScaleToFit(DESIGN_W);
+  const { ref, scale, pannable } = useScaleToFit(DESIGN_W);
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
@@ -99,8 +99,15 @@ export function AverroesWindow({ initial = "onboarding" }: { initial?: ScreenId 
   const Screen = views[Math.min(view, views.length - 1)].component;
 
   return (
-    <div className="avw" data-theme={dark ? "dark" : undefined} ref={ref} style={{ width: "100%", height: DESIGN_H * scale, overflow: "hidden" }}>
+    <div
+      className="avw"
+      data-theme={dark ? "dark" : undefined}
+      ref={ref}
+      style={{ width: "100%", height: DESIGN_H * scale, overflowX: pannable ? "auto" : "hidden", overflowY: "hidden" }}
+    >
       <style>{WINDOW_CSS}</style>
+      {/* Sizer: the scaled block keeps its design width in layout, this box gives the scroller the real one. */}
+      <div style={{ width: DESIGN_W * scale, height: DESIGN_H * scale, overflow: "hidden" }}>
       <div style={{ width: DESIGN_W, transform: `scale(${scale})`, transformOrigin: "top left" }}>
         <BrowserFrame path={`averroes / ${segment.segment.toLowerCase()}`}>
           <div className="avw-app">
@@ -124,6 +131,7 @@ export function AverroesWindow({ initial = "onboarding" }: { initial?: ScreenId 
             <Dock onAction={onDock} unread={notifs.filter((n) => n.unread).length} dark={dark} />
           </div>
         </BrowserFrame>
+      </div>
       </div>
     </div>
   );

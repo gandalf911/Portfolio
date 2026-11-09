@@ -107,6 +107,14 @@
   .dv-strengths { grid-template-columns: minmax(0, 1fr); }
   .dv-list { gap: 100px; padding-top: 80px; }
 }
+/* Phones: the chart keeps a legible scale and pans sideways inside its frame. */
+.dv-canvas[data-pannable] { overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; }
+.dv-pan-hint { display: none; align-self: center; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); }
+.dv-pan-hint svg { color: var(--acc); }
+@media (max-width: 809.98px) {
+  .dv-pan-hint { display: inline-flex; }
+  .dv-list { padding-left: 16px; padding-right: 16px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .dv-loading { animation: none; }
 }

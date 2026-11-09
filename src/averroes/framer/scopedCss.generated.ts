@@ -315,4 +315,29 @@ export const SCOPED_CSS = `/* Jetons du portfolio (begdouriziad.com), relevés s
 .acs .footer-note { position: relative; z-index: 1; border-top: 1px solid var(--line); padding: 18px 16px; color: #777; font-size: 13px; }
 .acs .footer-copy { position: relative; z-index: 1; border-top: 1px solid var(--line); padding: 22px 16px 34px; font-size: 14px; }
 
+/* Phones: the window pans sideways; each layer visual sized for a narrow card. */
+.acs .pan-hint { display: none; justify-content: center; align-items: center; gap: 6px; margin-top: 12px; font-size: 12.5px; color: var(--muted); }
+.acs .pan-hint svg { color: var(--jade); }
+@media (max-width: 809.98px) {
+  .acs .pan-hint { display: flex; }
+  .acs .dcard { padding: 20px; gap: 24px; }
+  .acs .dcard-visual { min-height: 360px; }
+  .acs .dcard-visual:has(.vis-surface) { min-height: 430px; }
+  .acs .vis-surface .planes { top: 40%; }
+  .acs .vis-legend { left: 14px; right: 14px; bottom: 12px; font-size: 12px; }
+  .acs .mod { font-size: 0; gap: 0; padding: 8px; }
+  .acs .mod[data-on] { font-size: 11.5px; gap: 6px; padding: 7px 11px; z-index: 2; }
+  .acs .dcard-visual > .vis-states,
+  .acs .dcard-visual > .vis-audit { position: relative; inset: auto; min-height: 360px; padding: 20px; }
+  .acs .st-foot { flex-wrap: wrap; row-gap: 6px; }
+  .acs .audit-hist { flex: none; height: 130px; }
+  .acs .vis-arch { padding: 6px; }
+  .acs .tile-box { width: 66px; height: 34px; }
+  .acs .tile-box img { max-height: 20px; max-width: 50px; }
+  .acs .tile-label { font-size: 9.5px; }
+  .acs .hub-ring { width: 74px; height: 74px; }
+  .acs .footer-body { padding: 64px 16px 40px; }
+  .acs .email { font-size: 16px; }
+}
+
 `;

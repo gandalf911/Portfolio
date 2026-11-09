@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { MousePointerClick, Sparkles } from "lucide-react";
+import { MousePointerClick, MoveHorizontal, Sparkles } from "lucide-react";
 import { EASE } from "../components/Reveal";
 import { WINDOW_CSS } from "../averroes/window/styles";
 import { Canvas } from "../dataviz/Canvas";
@@ -45,6 +45,9 @@ function Showcase({ section, index }: { section: Section; index: number }) {
           <div className="dv-frame">
             <Canvas key={view.label} demo={view.demo} width={view.width} height={view.height} dark={view.dark} />
           </div>
+          <p className="dv-pan-hint">
+            <MoveHorizontal size={14} aria-hidden /> Swipe sideways to explore the chart
+          </p>
         </div>
 
         <motion.ol

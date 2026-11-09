@@ -17,7 +17,7 @@ export function Canvas({
   height: number;
   dark?: boolean;
 }) {
-  const { ref, scale } = useScaleToFit(width);
+  const { ref, scale, pannable } = useScaleToFit(width);
   const [seen, setSeen] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,8 @@ export function Canvas({
   }, [ref, seen]);
 
   return (
-    <div ref={ref} className="dv-canvas" style={{ height: height * scale }}>
+    <div ref={ref} className="dv-canvas" data-pannable={pannable || undefined} style={{ height: height * scale }}>
+      <div style={{ width: width * scale, height: height * scale, overflow: "hidden" }}>
       <div
         className="avw"
         data-theme={dark ? "dark" : undefined}
@@ -48,6 +49,7 @@ export function Canvas({
             <Demo />
           </Suspense>
         )}
+      </div>
       </div>
     </div>
   );

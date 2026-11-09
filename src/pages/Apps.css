@@ -170,4 +170,8 @@
   .ap-phone { width: 26%; border-width: 4px; border-radius: 16px; }
   .ap-pipe, .ap-grid { grid-template-columns: 1fr; }
   .ap-pipe-out { flex-direction: column; }
+  .ap-steps { scroll-snap-type: x mandatory; scrollbar-width: none; margin-right: -16px; padding-right: 16px; }
+  .ap-steps::-webkit-scrollbar { display: none; }
+  .ap-steps li { flex-basis: 78%; scroll-snap-align: center; }
+  .ap-pipe-cell .ap-node { min-height: 0; }
 }

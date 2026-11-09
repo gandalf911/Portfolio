@@ -261,6 +261,22 @@
   .obs-outcome { grid-template-columns: 1fr; }
   .obs-out + .obs-out { border-left: 0; border-top: 1px solid var(--line); }
 }
+/* Phones: eleven labels cannot sit side by side. Only the current stage is named, under its dot. */
+@media (max-width: 809.98px) {
+  .ob-track { overflow: visible; height: 96px; margin: 28px 6px 0; }
+  .ob-phase--off { left: auto; right: 0; transform: none; }
+  .ob-stop-dot { width: 15px; height: 15px; }
+  .ob-stops li { top: 40px; }
+  .ob-stop { position: relative; }
+  .ob-stop-label {
+    position: absolute; top: 30px; left: 50%; transform: translateX(-50%); opacity: 0; pointer-events: none;
+    font-size: 12px; color: #fff; transition: opacity 0.3s;
+  }
+  .ob-stop[data-state="now"] .ob-stop-label { opacity: 1; }
+  .ob-stops li:first-child .ob-stop-label { left: -4px; transform: none; }
+  .ob-stops li:last-child .ob-stop-label { left: auto; right: -4px; transform: none; }
+  .ob-token { width: 28px; height: 28px; margin: -14px 0 0 -14px; font-size: 10px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .obs * { animation: none !important; transition: none !important; opacity: 1 !important; }
 }
