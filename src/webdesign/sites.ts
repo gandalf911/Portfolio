@@ -41,4 +41,16 @@ export const SITES: Site[] = [
     desktop: "/web/averroes-desktop.jpg",
     phone: "/web/averroes-phone.jpg",
   },
+  {
+    name: "Mercatus",
+    url: "https://mercatus.ma/",
+    sector: "Real-estate agent network · Morocco",
+    summary:
+      "The public site of Mercatus, my own product: a shared market where Moroccan real-estate agents match their listings with each other's client searches. Painted Moroccan cities set the tone, from a looping sky video with planes drifting over the hero to Casablanca, Marrakech and Rabat behind liquid-glass cards. It states the problem frankly, shows the network, walks through three steps, pins the app's real screens inside a zellige panel that advances as you scroll, then closes on pricing, questions and a contact form.",
+    pages: ["Accueil", "Ce qui arrive"],
+    sections: ["Video hero", "The problem", "Why Mercatus", "The network", "How it works", "Key features", "Pricing", "FAQ", "Contact form"],
+    built: "In Next.js and Tailwind, with anime.js motion and a generated video hero, responsive from desktop to phone",
+    desktop: "/web/mercatus-desktop.jpg",
+    phone: "/web/mercatus-phone.jpg",
+  },
 ];
